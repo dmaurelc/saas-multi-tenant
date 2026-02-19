@@ -1,0 +1,380 @@
+{
+  "$schema": "https://claude.ai/settings/schema.json",
+  "project": {
+    "name": "saas-multi-tenant",
+    "description": "Plataforma SaaS multi-tenant con arquitectura modular adaptable a múltiples verticales: eCommerce, SaaS de Servicios, Inmobiliario y Restaurantes",
+    "version": "0.1.0",
+    "repository": "https://github.com/user/saas-multi-tenant",
+    "license": "MIT",
+    "authors": [
+      {
+        "name": "Development Team",
+        "email": "dev@saas.com"
+      }
+    ]
+  },
+  "stack": {
+    "frontend": {
+      "framework": "Next.js 16",
+      "ui": "React 19",
+      "styling": "Tailwind CSS 4",
+      "components": "shadcn/ui",
+      "icons": "Lucide React"
+    },
+    "backend": {
+      "runtime": "Node.js 22",
+      "framework": "Hono / Next.js API Routes",
+      "language": "TypeScript 5"
+    },
+    "database": {
+      "provider": "Neon",
+      "type": "PostgreSQL 15+",
+      "orm": "Prisma ORM",
+      "features": ["Row Level Security", "Serverless", "Branching"]
+    },
+    "payments": {
+      "global": "Stripe",
+      "chile": ["Transbank Webpay Plus", "Transbank Oneclick", "MercadoPago", "Flow"]
+    },
+    "deployment": {
+      "platform": "Dokploy",
+      "containerization": "Docker",
+      "ci": "GitHub Actions"
+    },
+    "testing": {
+      "unit": "Vitest",
+      "e2e": "Playwright",
+      "coverage": "c8"
+    },
+    "monorepo": {
+      "manager": "pnpm",
+      "build": "Turborepo"
+    }
+  },
+  "architecture": {
+    "type": "multi-tenant-real",
+    "tenancy": "shared-database-shared-schema",
+    "isolation": "row-level-security",
+    "resolution": ["subdomain", "custom-domain", "header"]
+  },
+  "conventions": {
+    "commit": {
+      "type": "conventional-commits",
+      "format": "<type>(<scope>): <description>",
+      "scopes": ["auth", "tenants", "users", "payments", "api", "db", "ui", "docs", "deploy"]
+    },
+    "branching": {
+      "type": "gitflow",
+      "main": "main",
+      "develop": "develop",
+      "feature": "feature/sprint-N-description",
+      "sprint": "sprint/N-description",
+      "release": "release/vX.X.X",
+      "hotfix": "hotfix/description"
+    },
+    "versioning": "semantic-versioning",
+    "code": {
+      "linter": "ESLint",
+      "formatter": "Prettier",
+      "typescript": "strict"
+    }
+  },
+  "sprints": {
+    "current": 0,
+    "total": 25,
+    "phases": {
+      "core": {
+        "name": "Core SaaS",
+        "sprints": [0, 1, 2, 3, 4, 5],
+        "version": "v1.0.0"
+      },
+      "ecommerce": {
+        "name": "eCommerce",
+        "sprints": [6, 7, 8, 9],
+        "version": "v1.1.0"
+      },
+      "services": {
+        "name": "SaaS Servicios",
+        "sprints": [10, 11, 12, 13],
+        "version": "v1.2.0"
+      },
+      "real_estate": {
+        "name": "Inmobiliario",
+        "sprints": [14, 15, 16, 17],
+        "version": "v1.3.0"
+      },
+      "restaurant": {
+        "name": "Restaurantes",
+        "sprints": [18, 19, 20, 21],
+        "version": "v1.4.0"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "sprints": [22, 23, 24],
+        "version": "v2.0.0"
+      }
+    }
+  },
+  "verticals": {
+    "ecommerce": {
+      "enabled": true,
+      "features": ["products", "categories", "cart", "checkout", "orders", "inventory", "shipping", "coupons"]
+    },
+    "services": {
+      "enabled": true,
+      "features": ["services", "bookings", "calendar", "staff", "billing", "reports"]
+    },
+    "real_estate": {
+      "enabled": true,
+      "features": ["properties", "search", "agents", "tours", "leads"]
+    },
+    "restaurant": {
+      "enabled": true,
+      "features": ["menu", "tables", "reservations", "orders", "delivery", "kds"]
+    }
+  },
+  "agents": {
+    "enabled": true,
+    "orchestrator": {
+      "id": "orchestrator",
+      "model": "claude-opus-4-6",
+      "color": "#9333EA",
+      "description": "Agente principal que coordina todos los subagentes"
+    },
+    "subagents": [
+      {
+        "id": "planning",
+        "name": "Arquitecto de Planes",
+        "model": "claude-sonnet-4-5",
+        "color": "#3B82F6",
+        "scope": ["roadmaps", "sprints", "estimations", "dependencies"]
+      },
+      {
+        "id": "documentation",
+        "name": "Cronista Técnico",
+        "model": "claude-haiku-4-5",
+        "color": "#10B981",
+        "scope": ["docs", "readme", "api-docs", "guides"]
+      },
+      {
+        "id": "database",
+        "name": "Arquitecto de Datos",
+        "model": "claude-sonnet-4-5",
+        "color": "#F59E0B",
+        "scope": ["neon", "postgresql", "prisma", "rls", "migrations"]
+      },
+      {
+        "id": "api",
+        "name": "Arquitecto de API",
+        "model": "claude-sonnet-4-5",
+        "color": "#EF4444",
+        "scope": ["endpoints", "contracts", "validation", "openapi"]
+      },
+      {
+        "id": "uxui",
+        "name": "Diseñador de Experiencias",
+        "model": "claude-sonnet-4-5",
+        "color": "#06B6D4",
+        "scope": ["ui", "ux", "accessibility", "design-system"]
+      },
+      {
+        "id": "security",
+        "name": "Guardián de Seguridad",
+        "model": "claude-opus-4-6",
+        "color": "#6B21A8",
+        "scope": ["security", "audit", "vulnerabilities", "rls", "owasp"]
+      },
+      {
+        "id": "performance",
+        "name": "Optimizador de Rendimiento",
+        "model": "claude-sonnet-4-5",
+        "color": "#F97316",
+        "scope": ["performance", "optimization", "bundle", "caching", "lighthouse"]
+      },
+      {
+        "id": "testing",
+        "name": "Ingeniero de Calidad",
+        "model": "claude-sonnet-4-5",
+        "color": "#EC4899",
+        "scope": ["testing", "e2e", "unit", "integration", "synthetic-users"]
+      },
+      {
+        "id": "deploy",
+        "name": "Ingeniero de Deployment",
+        "model": "claude-sonnet-4-5",
+        "color": "#A16207",
+        "scope": ["dokploy", "docker", "ci-cd", "infrastructure"]
+      },
+      {
+        "id": "git",
+        "name": "Guardián del Repositorio",
+        "model": "claude-haiku-4-5",
+        "color": "#171717",
+        "scope": ["git", "branching", "prs", "versioning", "changelog"]
+      }
+    ],
+    "documentation": "./docs/agents/",
+    "config_path": "./docs/agents/"
+  },
+  "mcps": {
+    "global": {
+      "dokploy": {
+        "enabled": true,
+        "description": "Gestión de deployments en Dokploy",
+        "tools": ["project-*", "application-*", "domain-*", "postgres-*", "mysql-*"]
+      },
+      "supabase": {
+        "enabled": true,
+        "description": "Gestión de proyectos Supabase/Neon",
+        "tools": ["list_projects", "get_project", "execute_sql", "apply_migration", "list_tables"]
+      },
+      "n8n": {
+        "enabled": true,
+        "description": "Workflows automatizados",
+        "tools": ["search_workflows", "execute_workflow", "get_workflow_details"]
+      },
+      "web_reader": {
+        "enabled": true,
+        "description": "Lectura de contenido web",
+        "tools": ["webReader"]
+      },
+      "4_5v_mcp": {
+        "enabled": true,
+        "description": "Análisis de imágenes",
+        "tools": ["analyze_image"]
+      }
+    },
+    "local": {
+      "filesystem": {
+        "enabled": true,
+        "description": "Acceso al sistema de archivos"
+      },
+      "ide": {
+        "enabled": true,
+        "description": "Integración con IDE",
+        "tools": ["getDiagnostics", "executeCode"]
+      }
+    }
+  },
+  "paths": {
+    "apps": "./apps",
+    "packages": "./packages",
+    "docs": "./docs",
+    "agents": "./docs/agents",
+    "memory": "./memory",
+    "synthetic_users": "./docs/users/synthetic_users.json",
+    "roadmap": "./docs/planning/project_roadmap.md",
+    "blueprint": "./docs/architecture/blueprint_base.md"
+  },
+  "environments": {
+    "development": {
+      "url": "http://localhost:3000",
+      "database": "neon_dev"
+    },
+    "staging": {
+      "url": "https://staging.saas.com",
+      "database": "neon_staging"
+    },
+    "production": {
+      "url": "https://app.saas.com",
+      "database": "neon_prod"
+    }
+  },
+  "metrics": {
+    "targets": {
+      "lighthouse_performance": 90,
+      "lighthouse_accessibility": 95,
+      "api_response_p95_ms": 200,
+      "db_query_p95_ms": 100,
+      "test_coverage_percent": 80,
+      "uptime_percent": 99.9
+    }
+  },
+  "roles": {
+    "platform_admin": {
+      "description": "Administrador de la plataforma completa",
+      "permissions": ["*"]
+    },
+    "owner": {
+      "description": "Dueño del tenant con control total",
+      "permissions": ["tenant:read", "tenant:write", "tenant:delete", "users:read", "users:write", "users:delete", "billing:read", "billing:write", "settings:read", "settings:write"]
+    },
+    "admin": {
+      "description": "Administrador del tenant",
+      "permissions": ["tenant:read", "users:read", "users:write", "settings:read", "settings:write", "content:read", "content:write", "content:delete"]
+    },
+    "staff": {
+      "description": "Personal del tenant",
+      "permissions": ["content:read", "content:write", "orders:read", "orders:write"]
+    },
+    "customer": {
+      "description": "Cliente del tenant",
+      "permissions": ["content:read", "orders:read", "orders:write:self", "profile:read", "profile:write:self"]
+    }
+  },
+  "plans": {
+    "free": {
+      "name": "Free",
+      "price_monthly": 0,
+      "max_users": 1,
+      "max_records": 100
+    },
+    "pro": {
+      "name": "Pro",
+      "price_monthly": 29000,
+      "price_yearly": 290000,
+      "max_users": 5,
+      "max_records": 1000
+    },
+    "business": {
+      "name": "Business",
+      "price_monthly": 79000,
+      "price_yearly": 790000,
+      "max_users": 25,
+      "max_records": 10000
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "price_monthly": null,
+      "price_yearly": null,
+      "max_users": -1,
+      "max_records": -1
+    }
+  },
+  "commands": {
+    "orchestrate": {
+      "alias": "orch",
+      "description": "Invocar al orquestador principal"
+    },
+    "plan": {
+      "description": "Comandos de planificación"
+    },
+    "doc": {
+      "description": "Comandos de documentación"
+    },
+    "db": {
+      "description": "Comandos de base de datos"
+    },
+    "api": {
+      "description": "Comandos de API"
+    },
+    "ui": {
+      "description": "Comandos de UI/UX"
+    },
+    "sec": {
+      "description": "Comandos de seguridad"
+    },
+    "perf": {
+      "description": "Comandos de performance"
+    },
+    "test": {
+      "description": "Comandos de testing"
+    },
+    "deploy": {
+      "description": "Comandos de deployment"
+    },
+    "git": {
+      "description": "Comandos de git"
+    }
+  }
+}

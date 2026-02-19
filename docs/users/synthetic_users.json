@@ -1,0 +1,403 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "last_updated": "2026-02-19",
+    "description": "Usuarios sintéticos para testing del SaaS Multi-Tenant"
+  },
+  "synthetic_users": [
+    {
+      "id": "usr_platform_admin",
+      "email": "admin@platform.com",
+      "name": "Platform Administrator",
+      "role": "platform_admin",
+      "tenant_id": "tenant_platform",
+      "password": "TestPass123!",
+      "preferences": {
+        "language": "es",
+        "timezone": "America/Santiago",
+        "notifications": {
+          "email": true,
+          "in_app": true
+        }
+      }
+    },
+    {
+      "id": "usr_tenant1_owner",
+      "email": "owner@techstore.cl",
+      "name": "Juan Pérez - Owner",
+      "role": "owner",
+      "tenant_id": "tenant_ecommerce",
+      "password": "TestPass123!",
+      "preferences": {
+        "language": "es",
+        "timezone": "America/Santiago",
+        "notifications": {
+          "email": true,
+          "in_app": true
+        }
+      }
+    },
+    {
+      "id": "usr_tenant1_admin",
+      "email": "admin@techstore.cl",
+      "name": "María García - Admin",
+      "role": "admin",
+      "tenant_id": "tenant_ecommerce",
+      "password": "TestPass123!",
+      "preferences": {
+        "language": "es",
+        "timezone": "America/Santiago",
+        "notifications": {
+          "email": true,
+          "in_app": true
+        }
+      }
+    },
+    {
+      "id": "usr_tenant1_staff",
+      "email": "staff@techstore.cl",
+      "name": "Carlos López - Staff",
+      "role": "staff",
+      "tenant_id": "tenant_ecommerce",
+      "password": "TestPass123!",
+      "preferences": {
+        "language": "es",
+        "timezone": "America/Santiago",
+        "notifications": {
+          "email": false,
+          "in_app": true
+        }
+      }
+    },
+    {
+      "id": "usr_tenant1_customer",
+      "email": "customer@example.com",
+      "name": "Ana Martínez - Cliente",
+      "role": "customer",
+      "tenant_id": "tenant_ecommerce",
+      "password": "TestPass123!",
+      "preferences": {
+        "language": "es",
+        "timezone": "America/Santiago",
+        "notifications": {
+          "email": true,
+          "in_app": false
+        }
+      }
+    },
+    {
+      "id": "usr_tenant2_owner",
+      "email": "owner@consultoria.cl",
+      "name": "Roberto Sánchez - Owner",
+      "role": "owner",
+      "tenant_id": "tenant_services",
+      "password": "TestPass123!",
+      "preferences": {
+        "language": "es",
+        "timezone": "America/Santiago",
+        "notifications": {
+          "email": true,
+          "in_app": true
+        }
+      }
+    },
+    {
+      "id": "usr_tenant2_customer",
+      "email": "client2@example.com",
+      "name": "Laura Fernández - Cliente Servicios",
+      "role": "customer",
+      "tenant_id": "tenant_services",
+      "password": "TestPass123!",
+      "preferences": {
+        "language": "es",
+        "timezone": "America/Santiago",
+        "notifications": {
+          "email": true,
+          "in_app": true
+        }
+      }
+    }
+  ],
+  "tenants": [
+    {
+      "id": "tenant_platform",
+      "name": "Platform Admin",
+      "slug": "platform",
+      "plan": "enterprise",
+      "vertical": null,
+      "is_platform_tenant": true,
+      "domain": null,
+      "custom_domain": null,
+      "branding": {
+        "logo_url": null,
+        "primary_color": "#1a1a2e",
+        "secondary_color": "#16213e"
+      },
+      "settings": {
+        "features": ["all"],
+        "max_users": -1,
+        "max_records": -1
+      }
+    },
+    {
+      "id": "tenant_ecommerce",
+      "name": "TechStore Chile",
+      "slug": "techstore",
+      "plan": "business",
+      "vertical": "ecommerce",
+      "domain": "techstore.saas.com",
+      "custom_domain": "techstore.cl",
+      "branding": {
+        "logo_url": "https://example.com/logos/techstore.png",
+        "primary_color": "#2563eb",
+        "secondary_color": "#1e40af"
+      },
+      "settings": {
+        "features": ["products", "cart", "checkout", "payments", "shipping"],
+        "max_users": 25,
+        "max_records": 10000
+      }
+    },
+    {
+      "id": "tenant_services",
+      "name": "Consultoría Pro",
+      "slug": "consultoria",
+      "plan": "pro",
+      "vertical": "services",
+      "domain": "consultoria.saas.com",
+      "custom_domain": null,
+      "branding": {
+        "logo_url": "https://example.com/logos/consultoria.png",
+        "primary_color": "#059669",
+        "secondary_color": "#047857"
+      },
+      "settings": {
+        "features": ["services", "bookings", "calendar", "billing"],
+        "max_users": 5,
+        "max_records": 1000
+      }
+    }
+  ],
+  "plans": [
+    {
+      "id": "plan_free",
+      "name": "Free",
+      "price_monthly": 0,
+      "price_yearly": 0,
+      "max_users": 1,
+      "max_records": 100,
+      "features": ["basic_auth", "dashboard"]
+    },
+    {
+      "id": "plan_pro",
+      "name": "Pro",
+      "price_monthly": 29000,
+      "price_yearly": 290000,
+      "max_users": 5,
+      "max_records": 1000,
+      "features": ["basic_auth", "dashboard", "notifications", "basic_analytics"]
+    },
+    {
+      "id": "plan_business",
+      "name": "Business",
+      "price_monthly": 79000,
+      "price_yearly": 790000,
+      "max_users": 25,
+      "max_records": 10000,
+      "features": ["basic_auth", "oauth", "dashboard", "notifications", "advanced_analytics", "api_access"]
+    },
+    {
+      "id": "plan_enterprise",
+      "name": "Enterprise",
+      "price_monthly": null,
+      "price_yearly": null,
+      "max_users": -1,
+      "max_records": -1,
+      "features": ["all"]
+    }
+  ],
+  "roles": {
+    "platform_admin": {
+      "description": "Administrador de la plataforma completa",
+      "permissions": ["*"]
+    },
+    "owner": {
+      "description": "Dueño del tenant con control total",
+      "permissions": ["tenant:read", "tenant:write", "tenant:delete", "users:read", "users:write", "users:delete", "billing:read", "billing:write", "settings:read", "settings:write"]
+    },
+    "admin": {
+      "description": "Administrador del tenant",
+      "permissions": ["tenant:read", "users:read", "users:write", "settings:read", "settings:write", "content:read", "content:write", "content:delete"]
+    },
+    "staff": {
+      "description": "Personal del tenant",
+      "permissions": ["content:read", "content:write", "orders:read", "orders:write"]
+    },
+    "customer": {
+      "description": "Cliente del tenant",
+      "permissions": ["content:read", "orders:read", "orders:write:self", "profile:read", "profile:write:self"]
+    }
+  },
+  "test_scenarios": [
+    {
+      "id": "scenario_1",
+      "name": "tenant_isolation",
+      "description": "Verificar que RLS aísla correctamente los datos entre tenants",
+      "steps": [
+        "Login como usr_tenant1_admin",
+        "Intentar acceder a datos de tenant_services",
+        "Verificar que retorna error o datos vacíos",
+        "Login como usr_tenant2_owner",
+        "Verificar que solo ve datos de tenant_services"
+      ],
+      "expected_result": "Ningún usuario puede ver datos de otros tenants",
+      "priority": "critical"
+    },
+    {
+      "id": "scenario_2",
+      "name": "role_permissions",
+      "description": "Verificar que los permisos por rol funcionan correctamente",
+      "steps": [
+        "Login como usr_tenant1_staff",
+        "Intentar acceder a configuración de tenant",
+        "Verificar que retorna error 403",
+        "Login como usr_tenant1_admin",
+        "Verificar que puede acceder a configuración",
+        "Verificar que NO puede eliminar el tenant"
+      ],
+      "expected_result": "Cada rol solo puede realizar acciones permitidas",
+      "priority": "critical"
+    },
+    {
+      "id": "scenario_3",
+      "name": "subscription_limits",
+      "description": "Verificar que los límites del plan se respetan",
+      "steps": [
+        "Login como usr_tenant2_owner (plan pro, max 5 users)",
+        "Intentar crear 6to usuario",
+        "Verificar que retorna error de límite excedido",
+        "Verificar mensaje sugiere upgrade de plan"
+      ],
+      "expected_result": "No se pueden exceder los límites del plan",
+      "priority": "high"
+    },
+    {
+      "id": "scenario_4",
+      "name": "payment_flow",
+      "description": "Verificar flujo de pago completo con Stripe",
+      "steps": [
+        "Login como usr_tenant1_customer",
+        "Agregar productos al carrito",
+        "Iniciar checkout",
+        "Completar pago con tarjeta test de Stripe",
+        "Verificar orden creada con estado 'paid'",
+        "Verificar stock actualizado"
+      ],
+      "expected_result": "Pago procesado correctamente y orden creada",
+      "priority": "high"
+    },
+    {
+      "id": "scenario_5",
+      "name": "auth_magic_link",
+      "description": "Verificar autenticación con magic link",
+      "steps": [
+        "Solicitar magic link para usr_tenant1_customer",
+        "Verificar email enviado (mock)",
+        "Usar token del magic link",
+        "Verificar sesión creada correctamente"
+      ],
+      "expected_result": "Usuario autenticado sin password",
+      "priority": "medium"
+    },
+    {
+      "id": "scenario_6",
+      "name": "oauth_flow",
+      "description": "Verificar autenticación con OAuth",
+      "steps": [
+        "Iniciar flujo OAuth con Google",
+        "Completar autorización (mock)",
+        "Verificar usuario creado/vinculado",
+        "Verificar sesión creada"
+      ],
+      "expected_result": "Usuario autenticado via OAuth",
+      "priority": "medium"
+    },
+    {
+      "id": "scenario_7",
+      "name": "invitation_flow",
+      "description": "Verificar flujo de invitación de usuarios",
+      "steps": [
+        "Login como usr_tenant1_admin",
+        "Crear invitación para nuevo@usuario.com",
+        "Verificar email enviado (mock)",
+        "Usar link de invitación",
+        "Completar registro",
+        "Verificar usuario creado con rol asignado"
+      ],
+      "expected_result": "Usuario invitado se registra correctamente",
+      "priority": "medium"
+    },
+    {
+      "id": "scenario_8",
+      "name": "branding_customization",
+      "description": "Verificar personalización de branding por tenant",
+      "steps": [
+        "Login como usr_tenant1_owner",
+        "Cambiar colores primario/secundario",
+        "Subir nuevo logo",
+        "Verificar cambios en frontend público"
+      ],
+      "expected_result": "Branding aplicado correctamente en todo el tenant",
+      "priority": "low"
+    }
+  ],
+  "test_data": {
+    "products": [
+      {
+        "id": "prod_1",
+        "tenant_id": "tenant_ecommerce",
+        "name": "Laptop HP Pavilion",
+        "sku": "LAPTOP-001",
+        "price": 899990,
+        "stock": 15,
+        "category": "Computadoras"
+      },
+      {
+        "id": "prod_2",
+        "tenant_id": "tenant_ecommerce",
+        "name": "Mouse Logitech MX",
+        "sku": "MOUSE-001",
+        "price": 49990,
+        "stock": 50,
+        "category": "Periféricos"
+      },
+      {
+        "id": "prod_3",
+        "tenant_id": "tenant_ecommerce",
+        "name": "Monitor Samsung 27\"",
+        "sku": "MONITOR-001",
+        "price": 299990,
+        "stock": 8,
+        "category": "Monitores"
+      }
+    ],
+    "services": [
+      {
+        "id": "svc_1",
+        "tenant_id": "tenant_services",
+        "name": "Consultoría IT",
+        "duration_minutes": 60,
+        "price": 50000,
+        "category": "Consultoría"
+      },
+      {
+        "id": "svc_2",
+        "tenant_id": "tenant_services",
+        "name": "Desarrollo Web",
+        "duration_minutes": 120,
+        "price": 150000,
+        "category": "Desarrollo"
+      }
+    ]
+  }
+}
