@@ -63,7 +63,7 @@ docs/agents/
 
 ### Globales
 - **dokploy**: Gestión de deployments
-- **supabase**: Gestión de proyectos Neon/Supabase
+- **neon**: Gestión de base de datos Neon PostgreSQL
 - **n8n**: Workflows automatizados
 - **web_reader**: Lectura de contenido web
 - **4_5v_mcp**: Análisis de imágenes

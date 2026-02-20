@@ -295,7 +295,7 @@ Este proyecto utiliza un sistema de agentes IA especializados para optimizar el 
 | MCP | Descripción | Uso Principal |
 |-----|-------------|---------------|
 | `dokploy` | Gestión de deployments | Deploy agent |
-| `supabase` | Gestión de proyectos | Database agent |
+| `neon` | Gestión de base de datos Neon | Database agent |
 | `n8n` | Workflows automatizados | Integraciones |
 | `web_reader` | Lectura web | Documentation agent |
 | `4_5v_mcp` | Análisis de imágenes | UX/UI agent |

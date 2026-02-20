@@ -59,7 +59,7 @@ Garantiza la seguridad del sistema mediante auditorías, revisión de código, a
 |-----|----------|---------------|
 | `filesystem` | Read | Auditoría de código |
 | `dokploy` | Read | Verificar config de deployment |
-| `supabase` | Read | Auditor RLS policies |
+| `neon` | Read | Auditor RLS policies |
 
 ### Tools Nativas
 - `Read` - Revisar código

@@ -111,7 +111,7 @@ const delegationRules: DelegationRule[] = [
 | MCP | Uso | Permisos |
 |-----|-----|----------|
 | `dokploy` | Gestión deployments | Read/Write |
-| `supabase` | Consultar proyectos | Read |
+| `neon` | Consultar proyectos | Read |
 | `n8n` | Workflows automatizados | Read/Write |
 | `web_reader` | Documentación externa | Read |
 | `4_5v_mcp` | Análisis de imágenes | Read |

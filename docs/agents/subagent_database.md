@@ -56,7 +56,7 @@ Diseña, implementa y mantiene la arquitectura de base de datos, incluyendo sche
 ### MCPs Asignados
 | MCP | Permisos | Justificación |
 |-----|----------|---------------|
-| `supabase` | Read/Write | Gestión de proyectos Neon/Supabase |
+| `neon` | Read/Write | Gestión de base de datos Neon PostgreSQL |
 | `filesystem` | Read/Write | Escribir schemas y migraciones |
 
 ### Tools Nativas

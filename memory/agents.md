@@ -55,11 +55,12 @@ Los colores fueron seleccionados para fácil identificación visual:
 - Gestión de dominios y SSL
 - Monitoreo de recursos
 
-### Supabase
+### Neon
 - Usado por Database agent
+- PostgreSQL serverless con branching
 - Ejecución de SQL directo
-- Gestión de migraciones
-- Listado de tablas y extensiones
+- RLS (Row Level Security) para multi-tenant
+- Conexion via @neondatabase/serverless
 
 ### n8n
 - Disponible para automatizaciones

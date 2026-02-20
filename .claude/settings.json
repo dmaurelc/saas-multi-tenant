@@ -223,9 +223,9 @@
         "description": "Gestión de deployments en Dokploy",
         "tools": ["project-*", "application-*", "domain-*", "postgres-*", "mysql-*"]
       },
-      "supabase": {
+      "neon": {
         "enabled": true,
-        "description": "Gestión de proyectos Supabase/Neon",
+        "description": "Gestión de base de datos Neon PostgreSQL",
         "tools": ["list_projects", "get_project", "execute_sql", "apply_migration", "list_tables"]
       },
       "n8n": {
