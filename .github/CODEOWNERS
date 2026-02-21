@@ -1,0 +1,33 @@
+# CODEOWNERS - SaaS Multi-Tenant
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owners
+* @dmaurelc
+
+# Apps
+/apps/api/ @dmaurelc
+/apps/web/ @dmaurelc
+
+# Packages
+/packages/shared/ @dmaurelc
+/packages/ui/ @dmaurelc
+
+# Database
+/prisma/ @dmaurelc
+/lib/db.ts @dmaurelc
+
+# Documentation
+/docs/ @dmaurelc
+/memory/ @dmaurelc
+README.md @dmaurelc
+
+# CI/CD
+/.github/ @dmaurelc
+/turbo.json @dmaurelc
+
+# Configuration
+/package.json @dmaurelc
+/pnpm-workspace.yaml @dmaurelc
+/eslint.config.mjs @dmaurelc
+/.prettierrc @dmaurelc
+/commitlint.config.js @dmaurelc
