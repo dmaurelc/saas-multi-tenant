@@ -14,8 +14,9 @@
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
     "isolatedModules": true,
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./app/*", "./components/*", "./lib/*"]
+      "@/*": ["./*"]
     },
     "plugins": [
       {

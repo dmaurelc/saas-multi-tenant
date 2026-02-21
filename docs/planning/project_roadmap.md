@@ -70,30 +70,30 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 
 ### Tareas Backend
 
-- [ ] Crear `apps/api/routes/auth`
-- [ ] Registro con email/password
-- [ ] Login con JWT (incluye tenant_id)
-- [ ] Middleware de autenticación multi-tenant
-- [ ] Logout con invalidación de tokens
+- [x] Crear `apps/api/routes/auth`
+- [x] Registro con email/password
+- [x] Login con JWT (incluye tenant_id)
+- [x] Middleware de autenticación multi-tenant
+- [x] Logout con invalidación de tokens
 
 ### Tareas RLS
 
-- [ ] Configurar `set_config('app.current_tenant', tenant_id)`
-- [ ] Tests de aislamiento entre tenants
+- [x] Configurar `set_config('app.current_tenant', tenant_id)`
+- [x] Tests de aislamiento entre tenants
 
 ### Tareas Frontend
 
-- [ ] Crear `apps/web/app/(auth)/login`
-- [ ] Crear `apps/web/app/(auth)/register`
-- [ ] AuthContext y `useAuth()`
-- [ ] Protected routes
+- [x] Crear `apps/web/app/(auth)/login`
+- [x] Crear `apps/web/app/(auth)/register`
+- [x] AuthContext y `useAuth()`
+- [x] Protected routes
 
 ### Criterios de Aceptación
 
-- [ ] Usuario puede registrarse en un tenant
-- [ ] Login genera token válido con tenant_id
-- [ ] RLS aísla datos entre tenants
-- [ ] Logout invalida token correctamente
+- [x] Usuario puede registrarse en un tenant
+- [x] Login genera token válido con tenant_id
+- [x] RLS aísla datos entre tenants
+- [x] Logout invalida token correctamente
 
 ---
 
@@ -712,7 +712,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 ## Progreso General
 
 ```
-Core SaaS:        ▓░░░░░░░░░ 17% (Sprint 0 completado)
+Core SaaS:        ▓▓░░░░░░░░ 33% (Sprints 0-1 completados)
 eCommerce:        ░░░░░░░░░░ 0% (0/4 sprints)
 SaaS Servicios:   ░░░░░░░░░░ 0% (0/4 sprints)
 Inmobiliario:     ░░░░░░░░░░ 0% (0/4 sprints)
@@ -720,4 +720,4 @@ Restaurante:      ░░░░░░░░░░ 0% (0/4 sprints)
 Enterprise:       ░░░░░░░░░░ 0% (0/3 sprints)
 ```
 
-**Total: 1/25 sprints completados (Sprint 0: 100% completado)**
+**Total: 2/25 sprints completados (Sprint 0-1: 100% completados)**

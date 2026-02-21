@@ -1,7 +1,9 @@
 import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
 
-export default [
+export default tseslint.config(
   js.configs.recommended,
+  ...tseslint.configs.recommended,
   {
     files: ['**/*.{js,mjs,ts,tsx}'],
     languageOptions: {
@@ -31,13 +33,15 @@ export default [
         clearTimeout: 'readonly',
         setInterval: 'readonly',
         clearInterval: 'readonly',
+        localStorage: 'readonly',
       },
     },
     rules: {
-      'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       'no-console': 'off',
       'prefer-const': 'error',
       'no-var': 'error',
+      '@typescript-eslint/no-explicit-any': 'warn',
     },
   },
   {
@@ -50,6 +54,7 @@ export default [
       'coverage/**',
       '*.config.js',
       '*.config.mjs',
+      'pnpm-lock.yaml',
     ],
-  },
-];
+  }
+);
