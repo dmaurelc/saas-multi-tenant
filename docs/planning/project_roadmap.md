@@ -25,35 +25,35 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 ### Tareas
 
 #### Infraestructura
-- [ ] Inicializar monorepo (pnpm workspaces + Turborepo)
-- [ ] Configurar estructura de carpetas (apps/, packages/, docs/, tools/)
-- [ ] Crear `.gitignore` para Node.js/Next.js
-- [ ] Inicializar repositorio Git
+- [x] Inicializar monorepo (pnpm workspaces + Turborepo)
+- [x] Configurar estructura de carpetas (apps/, packages/, docs/, tools/)
+- [x] Crear `.gitignore` para Node.js/Next.js
+- [x] Inicializar repositorio Git
 
 #### Base de Datos
-- [ ] Crear proyecto en Neon
-- [ ] Configurar conexión desde apps/api
-- [ ] Crear esquemas iniciales (tenants, users)
+- [x] Crear proyecto en Neon
+- [x] Configurar conexión desde apps/api
+- [x] Crear esquemas iniciales (tenants, users)
 - [ ] Configurar RLS básico
 
 #### CI/CD
-- [ ] Configurar GitHub Actions
-- [ ] Workflow para tests
-- [ ] Workflow para lint
-- [ ] Branch protection rules
+- [x] Configurar GitHub Actions
+- [x] Workflow para tests
+- [x] Workflow para lint
+- [x] Branch protection rules
 
 #### Calidad de Código
-- [ ] Configurar ESLint
-- [ ] Configurar Prettier
-- [ ] Configurar Husky hooks
-- [ ] Configurar Commitlint
+- [x] Configurar ESLint
+- [x] Configurar Prettier
+- [x] Configurar Husky hooks
+- [x] Configurar Commitlint
 
 ### Criterios de Aceptación
-- [ ] Monorepo funcional con pnpm workspaces
+- [x] Monorepo funcional con pnpm workspaces
 - [ ] Conexión a Neon exitosa
-- [ ] CI/CD ejecutándose en develop
-- [ ] Conventional Commits validados
-- [ ] Git flow configurado (main, develop, branch protection)
+- [x] CI/CD ejecutándose en develop
+- [x] Conventional Commits validados
+- [x] Git flow configurado (main, develop, branch protection)
 
 ---
 
@@ -645,7 +645,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 ## Progreso General
 
 ```
-Core SaaS:        ░░░░░░░░░░ 0% (0/6 sprints)
+Core SaaS:        ▓░░░░░░░░░ 17% (Sprint 0 en progreso)
 eCommerce:        ░░░░░░░░░░ 0% (0/4 sprints)
 SaaS Servicios:   ░░░░░░░░░░ 0% (0/4 sprints)
 Inmobiliario:     ░░░░░░░░░░ 0% (0/4 sprints)
@@ -653,4 +653,4 @@ Restaurante:      ░░░░░░░░░░ 0% (0/4 sprints)
 Enterprise:       ░░░░░░░░░░ 0% (0/3 sprints)
 ```
 
-**Total: 0/25 sprints completados (0%)**
+**Total: 0/25 sprints completados (Sprint 0: 90% completado)**
