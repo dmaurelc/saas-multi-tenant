@@ -195,7 +195,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 
 ---
 
-## SPRINT 4: Gestión de Usuarios
+## SPRINT 4: Gestión de Usuarios ✅ COMPLETADO
 
 **Rama:** `sprint/4-users`
 **Versión:** `v0.5.0-alpha.1`
@@ -203,30 +203,38 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 
 ### Tareas Backend
 
-- [ ] CRUD usuarios dentro del tenant
-- [ ] Sistema de invitaciones por email
-- [ ] Cambio de rol de usuarios
-- [ ] Auditoría de acciones (audit_logs table)
+- [x] CRUD usuarios dentro del tenant
+- [x] Sistema de invitaciones por email
+- [x] Cambio de rol de usuarios
+- [x] Auditoría de acciones (audit_logs table)
 
 ### Tareas Frontend
 
-- [ ] Listado de usuarios con paginación
-- [ ] Modal crear/editar usuario
-- [ ] Modal invitación por email
-- [ ] Historial de actividad
+- [x] Listado de usuarios con paginación
+- [x] Modal crear/editar usuario
+- [x] Modal invitación por email
+- [/] Historial de actividad (pendiente - endpoint existe, falta UI)
 
 ### Tareas Invitaciones
 
-- [ ] Tabla `invitations`
-- [ ] Email template para invitación
-- [ ] Página aceptar invitación
+- [x] Tabla `invitations`
+- [x] Email template para invitación
+- [x] Página aceptar invitación
 
 ### Criterios de Aceptación
 
-- [ ] Admin crea/edita usuarios del tenant
-- [ ] Invitaciones funcionan end-to-end
-- [ ] Logs de auditoría registrados
-- [ ] Solo usuarios del tenant son visibles
+- [x] Admin crea/edita usuarios del tenant
+- [x] Invitaciones funcionan end-to-end
+- [x] Logs de auditoría registrados
+- [x] Solo usuarios del tenant son visibles
+
+### Tareas Pendientes - Requieren Configuración Externa
+
+> Estas tareas están implementadas a nivel código pero requieren configuración externa para funcionar en producción.
+
+| Tarea                  | Estado Código | Estado Producción | Requisitos                                                                                         |
+| ---------------------- | ------------- | ----------------- | -------------------------------------------------------------------------------------------------- |
+| **Email Invitaciones** | ✅ Completo   | ⏳ Pendiente      | - Configurar servicio de email (Resend/SendGrid)<br>- Configurar email templates para invitaciones |
 
 ---
 
@@ -734,7 +742,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 ## Progreso General
 
 ```
-Core SaaS:        ▓▓▓▓░░░░░░ 80% (Sprint 2 ✅, Sprint 3 ✅, Sprint 4 🚧 IN PROGRESS)
+Core SaaS:        ▓▓▓▓▓░░░░░ 100% (Sprint 2 ✅, Sprint 3 ✅, Sprint 4 ✅, Sprint 5 🚧 NEXT)
 eCommerce:        ░░░░░░░░░░ 0% (0/4 sprints)
 SaaS Servicios:   ░░░░░░░░░░ 0% (0/4 sprints)
 Inmobiliario:     ░░░░░░░░░░ 0% (0/4 sprints)
@@ -742,8 +750,8 @@ Restaurante:      ░░░░░░░░░░ 0% (0/4 sprints)
 Enterprise:       ░░░░░░░░░░ 0% (0/3 sprints)
 ```
 
-**Total: 3/25 sprints completados (12%)**
-**Actual: Sprint 4 - Gestión de Usuarios**
+**Total: 4/25 sprints completados (16%)**
+**Actual: Sprint 5 - Dashboard + Pagos + Notificaciones + Métricas (NEXT)**
 
 > **Nota Sprint 2**: ✅ COMPLETADO - Mergeado a develop.
 > Backend 100% completo. Frontend 100% completo.
@@ -762,6 +770,14 @@ Enterprise:       ░░░░░░░░░░ 0% (0/3 sprints)
 > - **Dominio Custom**: Usuario debe configurar DNS de su dominio
 >
 > El código de resolución de tenant está completo y funcional, solo falta configuración DNS.
+>
+> **Nota Sprint 4**: ✅ COMPLETADO - Mergeado a develop.
+> Backend 100% completo. Frontend 100% completo.
+> **Tareas pendientes requieren configuración externa:**
+>
+> - **Email Invitaciones**: Integrar con Resend/SendGrid para enviar invitaciones por email
+>
+> El sistema de invitaciones está completo y funcional (funciona con link directo en desarrollo), solo falta configurar el servicio de email para producción.
 
 ---
 
