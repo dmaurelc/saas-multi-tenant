@@ -21,7 +21,7 @@ export async function logAudit(params: AuditLogParams) {
         action: params.action,
         entity: params.entity,
         entityId: params.entityId,
-        metadata: params.metadata,
+        metadata: params.metadata as any, // Prisma JsonValue type
       },
     });
   } catch (error) {

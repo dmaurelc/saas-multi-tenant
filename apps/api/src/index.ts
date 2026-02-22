@@ -3,6 +3,7 @@ import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
 import { prettyJSON } from 'hono/pretty-json';
 import authRoutes from './routes/auth';
+import authAdvancedRoutes from './routes/auth-advanced';
 import { apiRateLimit } from './middleware/rateLimit';
 
 const app = new Hono();
@@ -71,6 +72,9 @@ app.get('/health', (c) => {
 
 // Auth routes (public + protected)
 app.route('/api/v1/auth', authRoutes);
+
+// Advanced auth routes (magic link, oauth)
+app.route('/api/v1/auth', authAdvancedRoutes);
 
 // ============================================
 // Error Handling

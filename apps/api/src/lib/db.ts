@@ -4,7 +4,7 @@ import { neon } from '@neondatabase/serverless';
 
 const connectionString = process.env.DATABASE_URL!;
 
-const sql = neon(connectionString);
+const sql = neon(connectionString) as any; // Type assertion for Neon serverless
 const adapter = new PrismaNeon(sql);
 
 export const db = new PrismaClient({

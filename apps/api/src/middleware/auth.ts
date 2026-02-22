@@ -7,7 +7,8 @@ declare module 'hono' {
     user: JwtPayload & { id: string };
     userId: string;
     tenantId: string;
-    userRole: string;
+    role: string;
+    permissions: string[] | null;
   }
 }
 
@@ -43,6 +44,7 @@ export async function authMiddleware(c: Context, next: Next) {
       id: true,
       email: true,
       role: true,
+      permissions: true,
       tenantId: true,
     },
   });
@@ -68,7 +70,8 @@ export async function authMiddleware(c: Context, next: Next) {
   c.set('user', { ...payload, id: user.id });
   c.set('userId', user.id);
   c.set('tenantId', user.tenantId);
-  c.set('userRole', user.role);
+  c.set('role', user.role);
+  c.set('permissions', user.permissions as string[] | null);
 
   await next();
 }
@@ -97,7 +100,8 @@ export async function optionalAuthMiddleware(c: Context, next: Next) {
         c.set('user', { ...payload, id: user.id });
         c.set('userId', user.id);
         c.set('tenantId', user.tenantId);
-        c.set('userRole', user.role);
+        c.set('role', user.role);
+        c.set('permissions', user.permissions as string[] | null);
       }
     }
   }
@@ -107,12 +111,13 @@ export async function optionalAuthMiddleware(c: Context, next: Next) {
 
 /**
  * Role-based authorization middleware
+ * @deprecated Use requireRole from middleware/authorization.ts instead
  */
 export function requireRole(...allowedRoles: string[]) {
   return async (c: Context, next: Next) => {
-    const userRole = c.get('userRole');
+    const role = c.get('role');
 
-    if (!userRole || !allowedRoles.includes(userRole)) {
+    if (!role || !allowedRoles.includes(role)) {
       return c.json({ error: 'Forbidden', message: 'Insufficient permissions' }, 403);
     }
 
