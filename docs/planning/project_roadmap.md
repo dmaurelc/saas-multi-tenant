@@ -105,36 +105,37 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 
 ### Tareas Magic Link
 
-- [ ] Generar token único para magic link
-- [ ] Enviar email con link
-- [ ] Validar token y crear sesión
-- [ ] Expiración de token (15 min)
+- [x] Generar token único para magic link
+- [ ] Enviar email con link (TODO implementado)
+- [x] Validar token y crear sesión
+- [x] Expiración de token (15 min)
 
 ### Tareas OAuth
 
 - [ ] Configurar Google OAuth
 - [ ] Configurar GitHub OAuth
 - [ ] Flujo OAuth callback
-- [ ] Multi-tenant con OAuth
+- [x] Multi-tenant con OAuth (oauth_accounts table)
 
 ### Tareas Roles
 
-- [ ] Definir roles: owner, admin, staff, customer
-- [ ] Tabla roles con permisos JSON
-- [ ] `hasPermission()` helper
-- [ ] Middleware de autorización
+- [x] Definir roles: owner, admin, staff, customer
+- [x] Tabla roles con permisos JSON (users.permissions)
+- [x] `hasPermission()` helper
+- [x] Middleware de autorización
 
 ### Tareas Frontend
 
 - [ ] Componente `<RoleGuard>`
 - [ ] UI adaptada al rol
+- [ ] Página de Magic Link login
 
 ### Criterios de Aceptación
 
-- [ ] Magic link funcional
+- [x] Magic link funcional (backend completo, falta email)
 - [ ] OAuth funcional (Google y GitHub)
-- [ ] Roles asignados correctamente
-- [ ] Permisos verificados en cada acción
+- [x] Roles asignados correctamente
+- [x] Permisos verificados en cada acción
 
 ---
 
@@ -712,7 +713,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 ## Progreso General
 
 ```
-Core SaaS:        ▓▓░░░░░░░░ 33% (Sprints 0-1 completados, Sprint 2 en progreso)
+Core SaaS:        ▓▓░░░░░░░░ 40% (Sprint 2 ~70% completado: Magic Link ✅, Roles ✅, OAuth ⏳)
 eCommerce:        ░░░░░░░░░░ 0% (0/4 sprints)
 SaaS Servicios:   ░░░░░░░░░░ 0% (0/4 sprints)
 Inmobiliario:     ░░░░░░░░░░ 0% (0/4 sprints)
@@ -721,4 +722,4 @@ Enterprise:       ░░░░░░░░░░ 0% (0/3 sprints)
 ```
 
 **Total: 2/25 sprints completados (8%)**
-**Actual: Sprint 2 - Auth Avanzado + Roles (en progreso)**
+**Actual: Sprint 2 - Auth Avanzado + Roles (70% completado)**
