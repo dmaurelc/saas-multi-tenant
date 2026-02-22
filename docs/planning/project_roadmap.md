@@ -97,7 +97,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 
 ---
 
-## SPRINT 2: Auth Avanzado + Roles
+## SPRINT 2: Auth Avanzado + Roles 🚧 IN PROGRESS
 
 **Rama:** `sprint/2-auth-advanced`
 **Versión:** `v0.3.0-alpha.1`
@@ -698,21 +698,21 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 
 ## Resumen de Versiones
 
-| Fase           | Sprints | Versión Final | Estado    |
-| -------------- | ------- | ------------- | --------- |
-| Core SaaS      | 0-5     | v1.0.0        | Pendiente |
-| eCommerce      | 6-9     | v1.1.0        | Pendiente |
-| SaaS Servicios | 10-13   | v1.2.0        | Pendiente |
-| Inmobiliario   | 14-17   | v1.3.0        | Pendiente |
-| Restaurante    | 18-21   | v1.4.0        | Pendiente |
-| Enterprise     | 22-24   | v2.0.0        | Pendiente |
+| Fase           | Sprints | Versión Final | Estado      |
+| -------------- | ------- | ------------- | ----------- |
+| Core SaaS      | 0-5     | v1.0.0        | En Progreso |
+| eCommerce      | 6-9     | v1.1.0        | Pendiente   |
+| SaaS Servicios | 10-13   | v1.2.0        | Pendiente   |
+| Inmobiliario   | 14-17   | v1.3.0        | Pendiente   |
+| Restaurante    | 18-21   | v1.4.0        | Pendiente   |
+| Enterprise     | 22-24   | v2.0.0        | Pendiente   |
 
 ---
 
 ## Progreso General
 
 ```
-Core SaaS:        ▓▓░░░░░░░░ 33% (Sprints 0-1 completados)
+Core SaaS:        ▓▓░░░░░░░░ 33% (Sprints 0-1 completados, Sprint 2 en progreso)
 eCommerce:        ░░░░░░░░░░ 0% (0/4 sprints)
 SaaS Servicios:   ░░░░░░░░░░ 0% (0/4 sprints)
 Inmobiliario:     ░░░░░░░░░░ 0% (0/4 sprints)
@@ -720,4 +720,5 @@ Restaurante:      ░░░░░░░░░░ 0% (0/4 sprints)
 Enterprise:       ░░░░░░░░░░ 0% (0/3 sprints)
 ```
 
-**Total: 2/25 sprints completados (Sprint 0-1: 100% completados)**
+**Total: 2/25 sprints completados (8%)**
+**Actual: Sprint 2 - Auth Avanzado + Roles (en progreso)**
