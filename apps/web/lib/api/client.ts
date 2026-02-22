@@ -195,6 +195,33 @@ class ApiClient {
     });
     return `${this.baseUrl}/api/v1/auth/oauth/${provider}?${params.toString()}`;
   }
+
+  // Tenant endpoints
+  async updateTenant(
+    tenantId: string,
+    data: {
+      name?: string;
+      logo?: string;
+      primaryColor?: string;
+      secondaryColor?: string;
+      customDomain?: string;
+      plan?: 'FREE' | 'PRO' | 'BUSINESS' | 'ENTERPRISE';
+    }
+  ) {
+    return this.request<{
+      message: string;
+      data: AuthUser['tenant'];
+    }>(`/api/v1/tenants/${tenantId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async getTenantBySlug(slug: string) {
+    return this.request<{
+      data: AuthUser['tenant'];
+    }>(`/api/v1/tenants/slug/${slug}`);
+  }
 }
 
 export interface AuthUser {
