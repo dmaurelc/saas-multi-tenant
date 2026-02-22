@@ -17,7 +17,7 @@ Eres el especialista en base de datos (Neon, PostgreSQL, Prisma, RLS).
 - **Features**: RLS, Branching
 
 ## MCPs
-- `supabase` - Gestión de proyectos, SQL, migraciones
+- `neon` - Gestión de base de datos Neon PostgreSQL
 
 ## Comandos
 
