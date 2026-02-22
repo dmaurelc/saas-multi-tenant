@@ -184,6 +184,15 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 - [/] Dominio custom verificable - requiere configuración DNS
 - [x] Resolución de tenant cacheada
 
+### Tareas Pendientes - Requieren Configuración Externa
+
+> Estas tareas están implementadas a nivel código pero requieren configuración externa para funcionar en producción.
+
+| Tarea                            | Estado Código | Estado Producción | Requisitos                                                                                                                           |
+| -------------------------------- | ------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| **Subdominio (tenant.saas.com)** | ✅ Completo   | ⏳ Pendiente      | - Configurar wildcard DNS en el proveedor<br>- Configurar servidor web para aceptar subdominios<br>- Apuntar \*.saas.com al servidor |
+| **Dominio Custom**               | ✅ Completo   | ⏳ Pendiente      | - Usuario debe configurar DNS de su dominio<br>- CNAME o A record apuntando a saas.com<br>- Verificación de dominio configurada      |
+
 ---
 
 ## SPRINT 4: Gestión de Usuarios
@@ -725,7 +734,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 ## Progreso General
 
 ```
-Core SaaS:        ▓▓▓░░░░░░░ 60% (Sprint 2 ✅, Sprint 3 🚧 IN PROGRESS)
+Core SaaS:        ▓▓▓▓░░░░░░ 80% (Sprint 2 ✅, Sprint 3 ✅, Sprint 4 🚧 IN PROGRESS)
 eCommerce:        ░░░░░░░░░░ 0% (0/4 sprints)
 SaaS Servicios:   ░░░░░░░░░░ 0% (0/4 sprints)
 Inmobiliario:     ░░░░░░░░░░ 0% (0/4 sprints)
@@ -733,10 +742,10 @@ Restaurante:      ░░░░░░░░░░ 0% (0/4 sprints)
 Enterprise:       ░░░░░░░░░░ 0% (0/3 sprints)
 ```
 
-**Total: 2/25 sprints completados (8%)**
-**Actual: Sprint 3 - Gestión de Tenants (IN PROGRESS)**
+**Total: 3/25 sprints completados (12%)**
+**Actual: Sprint 4 - Gestión de Usuarios**
 
-> **Nota Sprint 2**: ✅ COMPLETADO - Mergedo a develop.
+> **Nota Sprint 2**: ✅ COMPLETADO - Mergeado a develop.
 > Backend 100% completo. Frontend 100% completo.
 > **Tareas pendientes requieren configuración externa:**
 >
@@ -744,6 +753,15 @@ Enterprise:       ░░░░░░░░░░ 0% (0/3 sprints)
 > - **OAuth Credentials**: Configurar Google OAuth + GitHub OAuth (requiere dominio para producción)
 >
 > El código está listo y los flujos funcionan, solo falta configurar los servicios externos.
+>
+> **Nota Sprint 3**: ✅ COMPLETADO - Mergeado a develop.
+> Backend 100% completo. Frontend 100% completo.
+> **Tareas pendientes requieren configuración externa:**
+>
+> - **Subdominio (tenant.saas.com)**: Configurar wildcard DNS (\*.saas.com)
+> - **Dominio Custom**: Usuario debe configurar DNS de su dominio
+>
+> El código de resolución de tenant está completo y funcional, solo falta configuración DNS.
 
 ---
 
@@ -820,5 +838,15 @@ NEXT_PUBLIC_API_URL=http://localhost:3001
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
-> Única tarea pendiente: Integración con servicio de email real (Resend/SendGrid) para enviar Magic Links.
-> El flujo completo funciona, solo falta configurar el servicio de email.
+### DNS Configuration - Sprint 3 ⏳
+
+```bash
+# Wildcard DNS para subdominios
+*.saas.com  A  tu-ip-servidor
+
+# Para dominios custom de usuarios
+# Cada usuario configura su DNS:
+custom-domain.com  CNAME  saas.com
+# o
+custom-domain.com  A  tu-ip-servidor
+```
