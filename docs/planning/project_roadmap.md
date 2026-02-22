@@ -97,7 +97,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 
 ---
 
-## SPRINT 2: Auth Avanzado + Roles 🚧 IN PROGRESS
+## SPRINT 2: Auth Avanzado + Roles ✅ COMPLETADO
 
 **Rama:** `sprint/2-auth-advanced`
 **Versión:** `v0.3.0-alpha.1`
@@ -151,7 +151,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 
 ---
 
-## SPRINT 3: Gestión de Tenants
+## SPRINT 3: Gestión de Tenants 🚧 IN PROGRESS
 
 **Rama:** `sprint/3-tenants`
 **Versión:** `v0.4.0-alpha.1`
@@ -725,7 +725,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 ## Progreso General
 
 ```
-Core SaaS:        ▓▓░░░░░░░░ 40% (Sprint 2 ~95% completado: Magic Link ✅, Roles ✅, OAuth ✅)
+Core SaaS:        ▓▓▓░░░░░░░ 60% (Sprint 2 ✅, Sprint 3 🚧 IN PROGRESS)
 eCommerce:        ░░░░░░░░░░ 0% (0/4 sprints)
 SaaS Servicios:   ░░░░░░░░░░ 0% (0/4 sprints)
 Inmobiliario:     ░░░░░░░░░░ 0% (0/4 sprints)
@@ -734,9 +734,10 @@ Enterprise:       ░░░░░░░░░░ 0% (0/3 sprints)
 ```
 
 **Total: 2/25 sprints completados (8%)**
-**Actual: Sprint 2 - Auth Avanzado + Roles (95% completado)**
+**Actual: Sprint 3 - Gestión de Tenants (IN PROGRESS)**
 
-> **Nota Sprint 2**: Backend 100% completo. Frontend 100% completo.
+> **Nota Sprint 2**: ✅ COMPLETADO - Mergedo a develop.
+> Backend 100% completo. Frontend 100% completo.
 > **Tareas pendientes requieren configuración externa:**
 >
 > - **Email Service**: Integrar con Resend/SendGrid para enviar Magic Links

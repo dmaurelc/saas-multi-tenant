@@ -4,7 +4,9 @@ import { logger } from 'hono/logger';
 import { prettyJSON } from 'hono/pretty-json';
 import authRoutes from './routes/auth';
 import authAdvancedRoutes from './routes/auth-advanced';
+import tenantsRoutes from './routes/tenants';
 import { apiRateLimit } from './middleware/rateLimit';
+import { tenantResolver } from './middleware/tenant';
 
 const app = new Hono();
 
@@ -46,6 +48,9 @@ app.use('*', async (c, next) => {
 // API rate limiting
 app.use('/api/*', apiRateLimit);
 
+// Tenant resolution (subdomain/custom domain/header)
+app.use('/api/*', tenantResolver);
+
 // ============================================
 // Health Check
 // ============================================
@@ -75,6 +80,9 @@ app.route('/api/v1/auth', authRoutes);
 
 // Advanced auth routes (magic link, oauth)
 app.route('/api/v1/auth', authAdvancedRoutes);
+
+// Tenant routes (CRUD)
+app.route('/api/v1/tenants', tenantsRoutes);
 
 // ============================================
 // Error Handling
