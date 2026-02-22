@@ -1,7 +1,7 @@
 // Frontend Permission Utilities for Multi-Tenant SaaS
 // Mirror of backend permission system for client-side authorization
 
-import type { Role } from '@saas-multi-tenant/shared';
+import type { Role } from '@saas/shared';
 import type { AuthUser } from './api/client';
 
 // Re-export permission types from backend for consistency

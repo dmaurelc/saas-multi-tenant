@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,7 +10,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Mail, CheckCircle, XCircle, Loader2 } from 'lucide-react';
 import { apiClient } from '@/lib/api/client';
 import { useAuth } from '@/lib/contexts/AuthContext';
-import { Role } from '@shared';
+import { type Role } from '@saas/shared';
 
 interface InvitationData {
   id: string;
@@ -36,11 +36,11 @@ const roleLabels: Record<Role, string> = {
   CUSTOMER: 'Customer',
 };
 
-export default function InvitePage() {
+function InviteForm() {
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
   const router = useRouter();
-  const { login, user } = useAuth();
+  const { user, refreshUser } = useAuth();
 
   const [loading, setLoading] = useState(true);
   const [verifying, setVerifying] = useState(false);
@@ -59,7 +59,7 @@ export default function InvitePage() {
 
     const verifyInvitation = async () => {
       try {
-        const response = await apiClient.request<{ data: InvitationData }>(
+        const response = await apiClient.get<{ data: InvitationData }>(
           `/api/v1/invitations/${token}`
         );
         setInvitation(response.data);
@@ -91,7 +91,7 @@ export default function InvitePage() {
     setError(null);
 
     try {
-      const response = await apiClient.request<{
+      const response = await apiClient.post<{
         message: string;
         data: {
           user: { id: string; email: string; name: string; role: Role };
@@ -99,12 +99,17 @@ export default function InvitePage() {
           refreshToken: string;
         };
       }>(`/api/v1/invitations/${token}/accept`, {
-        method: 'POST',
-        body: JSON.stringify({ name, password }),
+        name,
+        password,
       });
 
-      // Login the user
-      login(response.data.accessToken, response.data.user);
+      // Login the user - store tokens and fetch user data
+      localStorage.setItem('accessToken', response.data.accessToken);
+      localStorage.setItem('refreshToken', response.data.refreshToken);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+
+      // Refresh user from server to get full user data with tenant
+      await refreshUser();
 
       // Redirect to dashboard
       router.push('/dashboard');
@@ -124,7 +129,7 @@ export default function InvitePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted">
+      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-background to-muted">
         <Card className="w-full max-w-md">
           <CardContent className="pt-6">
             <div className="flex flex-col items-center justify-center py-12">
@@ -139,7 +144,7 @@ export default function InvitePage() {
 
   if (error && !invitation) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted">
+      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-background to-muted">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
             <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-destructive/10 flex items-center justify-center">
@@ -163,7 +168,7 @@ export default function InvitePage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-background to-muted p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div
@@ -260,5 +265,22 @@ export default function InvitePage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function InvitePage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
+          <div className="text-center">
+            <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
+            <p className="text-muted-foreground">Loading...</p>
+          </div>
+        </div>
+      }
+    >
+      <InviteForm />
+    </Suspense>
   );
 }

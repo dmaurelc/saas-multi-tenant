@@ -39,7 +39,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Plus, MoreVertical, Mail, UserCheck, UserX, Shield, Search, UserPlus } from 'lucide-react';
-import { Role } from '@shared';
+import { type Role } from '@saas/shared';
 
 interface User {
   id: string;
@@ -110,7 +110,7 @@ export default function UsersPage() {
       if (search) params.append('search', search);
       if (roleFilter !== 'all') params.append('role', roleFilter);
 
-      const response = await apiClient.request<UsersResponse>(`/api/v1/users?${params.toString()}`);
+      const response = await apiClient.get<UsersResponse>(`/api/v1/users?${params.toString()}`);
 
       setUsers(response.data);
       setTotal(response.meta.total);
@@ -130,16 +130,13 @@ export default function UsersPage() {
 
     setSubmitting(true);
     try {
-      await apiClient.request<{
+      await apiClient.post<{
         message: string;
         data: { id: string; email: string; role: Role };
       }>('/api/v1/invitations', {
-        method: 'POST',
-        body: JSON.stringify({
-          email: inviteEmail,
-          role: inviteRole,
-          expiresIn: 48,
-        }),
+        email: inviteEmail,
+        role: inviteRole,
+        expiresIn: 48,
       });
 
       setInviteModalOpen(false);
@@ -166,12 +163,9 @@ export default function UsersPage() {
 
     setSubmitting(true);
     try {
-      await apiClient.request<{ message: string; data: User }>(`/api/v1/users/${selectedUser.id}`, {
-        method: 'PATCH',
-        body: JSON.stringify({
-          name: editName,
-          role: editRole,
-        }),
+      await apiClient.patch<{ message: string; data: User }>(`/api/v1/users/${selectedUser.id}`, {
+        name: editName,
+        role: editRole,
       });
 
       setEditModalOpen(false);
@@ -187,9 +181,8 @@ export default function UsersPage() {
 
   const handleToggleActive = async (user: User) => {
     try {
-      await apiClient.request<{ message: string }>(`/api/v1/users/${user.id}`, {
-        method: 'PATCH',
-        body: JSON.stringify({ isActive: !user.isActive }),
+      await apiClient.patch<{ message: string }>(`/api/v1/users/${user.id}`, {
+        isActive: !user.isActive,
       });
       fetchUsers();
     } catch (error: any) {
@@ -202,8 +195,13 @@ export default function UsersPage() {
     if (!confirm(`Are you sure you want to delete ${user.email}?`)) return;
 
     try {
-      await apiClient.request<{ message: string }>(`/api/v1/users/${user.id}`, {
+      // TODO: Add delete method to apiClient or use fetch directly
+      await fetch(`/api/v1/users/${user.id}`, {
         method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
       });
       fetchUsers();
     } catch (error: any) {
@@ -250,7 +248,7 @@ export default function UsersPage() {
                 value={roleFilter}
                 onValueChange={(value) => setRoleFilter(value as Role | 'all')}
               >
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="w-45">
                   <SelectValue placeholder="Filter by role" />
                 </SelectTrigger>
                 <SelectContent>
@@ -281,7 +279,7 @@ export default function UsersPage() {
                   <TableHead>Role</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Joined</TableHead>
-                  <TableHead className="w-[70px]"></TableHead>
+                  <TableHead className="w-17.5"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -302,7 +300,7 @@ export default function UsersPage() {
                     <TableRow key={u.id}>
                       <TableCell>
                         <div className="flex items-center gap-3">
-                          <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center text-white font-medium">
+                          <div className="h-10 w-10 rounded-full bg-linear-to-br from-primary to-primary/60 flex items-center justify-center text-white font-medium">
                             {(u.name || u.email).charAt(0).toUpperCase()}
                           </div>
                           <div>

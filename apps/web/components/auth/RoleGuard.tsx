@@ -3,7 +3,7 @@
 import { ReactNode } from 'react';
 import { useAuth } from '@/lib/contexts/AuthContext';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import type { Role } from '@saas-multi-tenant/shared';
+import type { Role } from '@saas/shared';
 import type { Permission } from '@/lib/permissions';
 import {
   hasRole,

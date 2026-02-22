@@ -222,6 +222,31 @@ class ApiClient {
       data: AuthUser['tenant'];
     }>(`/api/v1/tenants/slug/${slug}`);
   }
+
+  // Generic methods
+  async get<T>(endpoint: string): Promise<{ data: T }> {
+    return this.request<{ data: T }>(endpoint);
+  }
+
+  async post<T>(endpoint: string, data?: unknown): Promise<T> {
+    return this.request<T>(endpoint, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async patch<T>(endpoint: string, data?: unknown): Promise<T> {
+    return this.request<T>(endpoint, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async delete<T>(endpoint: string): Promise<T> {
+    return this.request<T>(endpoint, {
+      method: 'DELETE',
+    });
+  }
 }
 
 export interface AuthUser {
@@ -243,3 +268,58 @@ export interface AuthUser {
 }
 
 export const api = new ApiClient(API_URL);
+
+// Simplified API client for dashboard use
+export const apiClient = {
+  get: async <T>(endpoint: string) => {
+    const token = localStorage.getItem('accessToken');
+    const response = await fetch(`${API_URL}${endpoint}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('API request failed');
+    }
+
+    return response.json() as Promise<T>;
+  },
+
+  post: async <T>(endpoint: string, data?: unknown) => {
+    const token = localStorage.getItem('accessToken');
+    const response = await fetch(`${API_URL}${endpoint}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error('API request failed');
+    }
+
+    return response.json() as Promise<T>;
+  },
+
+  patch: async <T>(endpoint: string, data?: unknown) => {
+    const token = localStorage.getItem('accessToken');
+    const response = await fetch(`${API_URL}${endpoint}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error('API request failed');
+    }
+
+    return response.json() as Promise<T>;
+  },
+};

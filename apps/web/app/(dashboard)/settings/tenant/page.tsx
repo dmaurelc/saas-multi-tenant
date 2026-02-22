@@ -12,7 +12,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { RoleGuard } from '@/components/auth/RoleGuard';
-import { Building, Upload, Check, Palette, Globe, Loader2 } from 'lucide-react';
+import { Building, Upload, Check, Palette, Loader2 } from 'lucide-react';
 
 const tenantSettingsSchema = z.object({
   name: z.string().min(1, 'Name is required').max(100, 'Name too long'),
@@ -25,7 +25,6 @@ const tenantSettingsSchema = z.object({
     .string()
     .regex(/^#[0-9A-Fa-f]{6}$/, 'Invalid hex color')
     .optional(),
-  customDomain: z.string().min(1, 'Domain too short').max(255, 'Domain too long').optional(),
 });
 
 type TenantSettingsFormData = z.infer<typeof tenantSettingsSchema>;
@@ -59,7 +58,6 @@ export default function TenantSettingsPage() {
       setValue('logo', user.tenant.logo || '');
       setValue('primaryColor', user.tenant.primaryColor || '#3b82f6');
       setValue('secondaryColor', user.tenant.secondaryColor || '#8b5cf6');
-      setValue('customDomain', user.tenant.customDomain || '');
     }
   }, [user, setValue]);
 
@@ -261,46 +259,6 @@ export default function TenantSettingsPage() {
                       </div>
                     </div>
                   </div>
-                )}
-              </form>
-            </CardContent>
-          </Card>
-        </RoleGuard>
-
-        {/* Custom Domain Section */}
-        <RoleGuard permission="tenants.domain">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Globe className="h-5 w-5" />
-                Custom Domain
-              </CardTitle>
-              <CardDescription>
-                Configure a custom domain for your organization (e.g., app.yourcompany.com)
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="customDomain">Custom Domain</Label>
-                  <Input
-                    id="customDomain"
-                    placeholder="app.yourcompany.com"
-                    {...register('customDomain')}
-                    error={errors.customDomain?.message}
-                  />
-                  <p className="text-xs text-muted-foreground">
-                    After setting your custom domain, you&apos;ll need to update your DNS records to
-                    point to our servers.
-                  </p>
-                </div>
-
-                {tenant.customDomain && (
-                  <Alert>
-                    <AlertDescription>
-                      Current custom domain: <strong>{tenant.customDomain}</strong>
-                    </AlertDescription>
-                  </Alert>
                 )}
               </form>
             </CardContent>

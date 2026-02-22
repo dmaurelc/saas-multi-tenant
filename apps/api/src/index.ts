@@ -7,6 +7,10 @@ import authAdvancedRoutes from './routes/auth-advanced';
 import tenantsRoutes from './routes/tenants';
 import usersRoutes from './routes/users';
 import invitationsRoutes from './routes/invitations';
+import paymentsRoutes from './routes/payments';
+import subscriptionsRoutes from './routes/subscriptions';
+import notificationsRoutes from './routes/notifications';
+import metricsRoutes from './routes/metrics';
 import { apiRateLimit } from './middleware/rateLimit';
 import { tenantResolver } from './middleware/tenant';
 
@@ -91,6 +95,18 @@ app.route('/api/v1/users', usersRoutes);
 
 // Invitation routes
 app.route('/api/v1/invitations', invitationsRoutes);
+
+// Payment routes
+app.route('/api/v1/payments', paymentsRoutes);
+
+// Subscription routes
+app.route('/api/v1/subscriptions', subscriptionsRoutes);
+
+// Notification routes
+app.route('/api/v1/notifications', notificationsRoutes);
+
+// Metrics routes
+app.route('/api/v1/metrics', metricsRoutes);
 
 // ============================================
 // Error Handling

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,7 +17,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Mail } from 'lucide-react';
+import { Mail, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from '@/lib/contexts/AuthContext';
 
@@ -28,7 +28,7 @@ const magicLinkSchema = z.object({
 
 type MagicLinkFormData = z.infer<typeof magicLinkSchema>;
 
-export default function MagicLinkPage() {
+function MagicLinkForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { isAuthenticated, requestMagicLink } = useAuth();
@@ -171,5 +171,22 @@ export default function MagicLinkPage() {
         </form>
       </Card>
     </div>
+  );
+}
+
+export default function MagicLinkPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
+          <div className="text-center">
+            <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
+            <p className="text-muted-foreground">Loading...</p>
+          </div>
+        </div>
+      }
+    >
+      <MagicLinkForm />
+    </Suspense>
   );
 }
