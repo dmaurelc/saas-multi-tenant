@@ -1,11 +1,5 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
-interface ApiResponse<T> {
-  data?: T;
-  error?: string;
-  message?: string;
-}
-
 interface RequestOptions extends RequestInit {
   token?: string;
 }
@@ -171,6 +165,35 @@ class ApiClient {
     return this.request<{ message: string }>('/api/v1/auth/logout-all', {
       method: 'POST',
     });
+  }
+
+  // Magic Link endpoints
+  async requestMagicLink(data: { email: string; tenantSlug?: string }) {
+    return this.request<{ message: string }>('/api/v1/auth/magic-link/request', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async verifyMagicLink(token: string) {
+    return this.request<{
+      message: string;
+      user: AuthUser;
+      accessToken: string;
+      refreshToken: string;
+      expiresIn: number;
+    }>('/api/v1/auth/magic-link/verify', {
+      method: 'POST',
+      body: JSON.stringify({ token }),
+    });
+  }
+
+  // OAuth endpoints
+  getOAuthUrl(provider: 'google' | 'github', redirectUri?: string) {
+    const params = new URLSearchParams({
+      redirect_uri: redirectUri || `${window.location.origin}/dashboard`,
+    });
+    return `${this.baseUrl}/api/v1/auth/oauth/${provider}?${params.toString()}`;
   }
 }
 

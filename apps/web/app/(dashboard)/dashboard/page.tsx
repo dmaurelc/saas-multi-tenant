@@ -3,7 +3,8 @@
 import { useAuth } from '@/lib/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { LogOut, User, Building } from 'lucide-react';
+import { LogOut, User, Building, Users, CreditCard } from 'lucide-react';
+import { RoleGuard } from '@/components/auth/RoleGuard';
 
 export default function DashboardPage() {
   const { user, logout } = useAuth();
@@ -86,7 +87,7 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-          {/* Quick Actions Card */}
+          {/* Quick Actions Card - Role Adapted */}
           <Card>
             <CardHeader>
               <CardTitle>Quick Actions</CardTitle>
@@ -94,15 +95,42 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
-                <Button variant="outline" className="w-full justify-start">
-                  Manage Users
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  Organization Settings
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  Billing
-                </Button>
+                {/* Manage Users - OWNER and ADMIN only */}
+                <RoleGuard permission="users.create" renderNothing>
+                  <Button variant="outline" className="w-full justify-start">
+                    <Users className="h-4 w-4 mr-2" />
+                    Manage Users
+                  </Button>
+                </RoleGuard>
+
+                {/* Organization Settings - OWNER and ADMIN only */}
+                <RoleGuard permission="tenants.update" renderNothing>
+                  <Button variant="outline" className="w-full justify-start">
+                    <Building className="h-4 w-4 mr-2" />
+                    Organization Settings
+                  </Button>
+                </RoleGuard>
+
+                {/* Billing - OWNER only */}
+                <RoleGuard permission="subscription.update" renderNothing>
+                  <Button variant="outline" className="w-full justify-start">
+                    <CreditCard className="h-4 w-4 mr-2" />
+                    Billing
+                  </Button>
+                </RoleGuard>
+
+                {/* No actions available for STAFF or CUSTOMER */}
+                <RoleGuard
+                  permissions={['users.create', 'tenants.update', 'subscription.update']}
+                  requireAll={false}
+                  fallback={
+                    <p className="text-sm text-muted-foreground text-center py-4">
+                      No quick actions available for your role.
+                    </p>
+                  }
+                >
+                  {/* This content will never be shown, fallback is shown instead */}
+                </RoleGuard>
               </div>
             </CardContent>
           </Card>

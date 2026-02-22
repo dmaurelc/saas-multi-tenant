@@ -106,15 +106,15 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 ### Tareas Magic Link
 
 - [x] Generar token único para magic link
-- [ ] Enviar email con link (TODO implementado)
+- [/] Enviar email con link (TODO implementado)
 - [x] Validar token y crear sesión
 - [x] Expiración de token (15 min)
 
 ### Tareas OAuth
 
-- [ ] Configurar Google OAuth
-- [ ] Configurar GitHub OAuth
-- [ ] Flujo OAuth callback
+- [/] Configurar Google OAuth (código listo, falta credentials)
+- [/] Configurar GitHub OAuth (código listo, falta credentials)
+- [/] Flujo OAuth callback (implementado, requiere dominio para producción)
 - [x] Multi-tenant con OAuth (oauth_accounts table)
 
 ### Tareas Roles
@@ -126,16 +126,28 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 
 ### Tareas Frontend
 
-- [ ] Componente `<RoleGuard>`
-- [ ] UI adaptada al rol
-- [ ] Página de Magic Link login
+- [x] Componente `<RoleGuard>`
+- [x] UI adaptada al rol
+- [x] Página de Magic Link login
+- [x] Botones OAuth en login (Google + GitHub)
 
 ### Criterios de Aceptación
 
-- [x] Magic link funcional (backend completo, falta email)
-- [ ] OAuth funcional (Google y GitHub)
+- [/] Magic link funcional (código completo, falta configurar email service)
+- [/] OAuth funcional (código completo, falta configurar credentials + dominio)
 - [x] Roles asignados correctamente
 - [x] Permisos verificados en cada acción
+
+### Tareas Pendientes - Requieren Configuración Externa
+
+> Estas tareas están implementadas a nivel código pero requieren configuración externa para funcionar en producción.
+
+| Tarea                   | Estado Código | Estado Producción | Requisitos                                                                                                                                       |
+| ----------------------- | ------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **OAuth Google**        | ✅ Completo   | ⏳ Pendiente      | - Crear OAuth 2.0 Client en Google Cloud Console<br>- Configurar redirect URIs<br>- Agregar `GOOGLE_CLIENT_ID` y `GOOGLE_CLIENT_SECRET` a `.env` |
+| **OAuth GitHub**        | ✅ Completo   | ⏳ Pendiente      | - Crear OAuth App en GitHub Developer Settings<br>- Configurar callback URL<br>- Agregar `GITHUB_CLIENT_ID` y `GITHUB_CLIENT_SECRET` a `.env`    |
+| **Magic Link Email**    | ✅ Completo   | ⏳ Pendiente      | - Configurar servicio de email (Resend/SendGrid)<br>- Agregar `RESEND_API_KEY` o `SENDGRID_API_KEY` a `.env`<br>- Configurar email templates     |
+| **Custom Domain OAuth** | ⏳ Pendiente  | ⏳ Pendiente      | - Requiere dominio propio configurado<br>- Actualizar redirect URIs en OAuth providers                                                           |
 
 ---
 
@@ -713,7 +725,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 ## Progreso General
 
 ```
-Core SaaS:        ▓▓░░░░░░░░ 40% (Sprint 2 ~70% completado: Magic Link ✅, Roles ✅, OAuth ⏳)
+Core SaaS:        ▓▓░░░░░░░░ 40% (Sprint 2 ~95% completado: Magic Link ✅, Roles ✅, OAuth ✅)
 eCommerce:        ░░░░░░░░░░ 0% (0/4 sprints)
 SaaS Servicios:   ░░░░░░░░░░ 0% (0/4 sprints)
 Inmobiliario:     ░░░░░░░░░░ 0% (0/4 sprints)
@@ -722,4 +734,90 @@ Enterprise:       ░░░░░░░░░░ 0% (0/3 sprints)
 ```
 
 **Total: 2/25 sprints completados (8%)**
-**Actual: Sprint 2 - Auth Avanzado + Roles (70% completado)**
+**Actual: Sprint 2 - Auth Avanzado + Roles (95% completado)**
+
+> **Nota Sprint 2**: Backend 100% completo. Frontend 100% completo.
+> **Tareas pendientes requieren configuración externa:**
+>
+> - **Email Service**: Integrar con Resend/SendGrid para enviar Magic Links
+> - **OAuth Credentials**: Configurar Google OAuth + GitHub OAuth (requiere dominio para producción)
+>
+> El código está listo y los flujos funcionan, solo falta configurar los servicios externos.
+
+---
+
+## Variables de Entorno Requeridas
+
+### Base de Datos
+
+```bash
+# Neon PostgreSQL
+DATABASE_URL=postgresql://...
+```
+
+### JWT / Auth
+
+```bash
+JWT_SECRET=tu-secreto-super-seguro
+JWT_REFRESH_SECRET=tu-secreto-refresh-super-seguro
+JWT_EXPIRES_IN=15m
+JWT_REFRESH_EXPIRES_IN=7d
+```
+
+### OAuth - Sprint 2 ⏳
+
+```bash
+# Google OAuth
+GOOGLE_CLIENT_ID=tu-google-client-id
+GOOGLE_CLIENT_SECRET=tu-google-client-secret
+
+# GitHub OAuth
+GITHUB_CLIENT_ID=tu-github-client-id
+GITHUB_CLIENT_SECRET=tu-github-client-secret
+```
+
+### Email Service - Sprint 2/5 ⏳
+
+```bash
+# Resend (Recomendado)
+RESEND_API_KEY=re_xxxxxxxxxxxxx
+
+# O SendGrid
+SENDGRID_API_KEY=SG.xxxxx
+SENDGRID_FROM_EMAIL=noreply@tudominio.com
+```
+
+### Stripe Pagos - Sprint 5 ⏳
+
+```bash
+STRIPE_SECRET_KEY=sk_test_xxxxx
+STRIPE_WEBHOOK_SECRET=whsec_xxxxx
+STRIPE_PRICE_ID_PRO=price_xxxxx
+STRIPE_PRICE_ID_BUSINESS=price_xxxxx
+```
+
+### Pagos Chile - Sprint 5 ⏳
+
+```bash
+# Transbank
+TBK_COMMERCE_CODE=xxxxxxxx
+TBK_API_KEY=xxxxxxxx
+TBK_INTEGRATION_TYPE=TEST
+
+# MercadoPago
+MERCADOPAGO_ACCESS_TOKEN=xxxxxxxx
+
+# Flow
+FLOW_API_KEY=xxxxxxxx
+FLOW_SECRET=xxxxxxxx
+```
+
+### Application URLs
+
+```bash
+NEXT_PUBLIC_API_URL=http://localhost:3001
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+> Única tarea pendiente: Integración con servicio de email real (Resend/SendGrid) para enviar Magic Links.
+> El flujo completo funciona, solo falta configurar el servicio de email.

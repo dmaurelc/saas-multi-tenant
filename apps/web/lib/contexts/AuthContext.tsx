@@ -17,6 +17,7 @@ interface AuthContextType {
   }) => Promise<void>;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
+  requestMagicLink: (email: string, tenantSlug?: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -85,6 +86,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const requestMagicLink = async (email: string, tenantSlug?: string) => {
+    await api.requestMagicLink({ email, tenantSlug });
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -95,6 +100,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         register,
         logout,
         refreshUser,
+        requestMagicLink,
       }}
     >
       {children}
