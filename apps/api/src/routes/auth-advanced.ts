@@ -7,6 +7,7 @@ import { logAudit, AuditActions } from '../lib/audit';
 import { authMiddleware } from '../middleware/auth';
 import { authRateLimit } from '../middleware/rateLimit';
 import { createMagicLink, validateMagicLink, markMagicLinkUsed } from '../lib/magicLink';
+import { getOAuthAuthorizationUrl, completeOAuthFlow, generateOAuthState } from '../lib/oauth';
 
 const app = new Hono();
 
@@ -280,25 +281,40 @@ app.get('/magic-link/verify', async (c) => {
 });
 
 // ============================================
-// OAuth Routes (placeholders - to be implemented)
+// OAuth Routes
 // ============================================
 
 /**
- * GET /api/v1/auth/oauth/google
- * Initiate Google OAuth flow
+ * GET /api/v1/auth/oauth/:provider
+ * Initiate OAuth flow
  */
-app.get('/oauth/google', async (c) => {
-  // TODO: Implement Google OAuth
-  return c.json({ message: 'Google OAuth not yet implemented' }, 501);
-});
+app.get('/oauth/:provider', async (c) => {
+  const provider = c.req.param('provider');
 
-/**
- * GET /api/v1/auth/oauth/github
- * Initiate GitHub OAuth flow
- */
-app.get('/oauth/github', async (c) => {
-  // TODO: Implement GitHub OAuth
-  return c.json({ message: 'GitHub OAuth not yet implemented' }, 501);
+  if (provider !== 'google' && provider !== 'github') {
+    return c.json({ error: 'Bad Request', message: 'Invalid OAuth provider' }, 400);
+  }
+
+  // Get optional tenant_id from query (for new users)
+  const tenantId = c.req.query('tenant_id');
+
+  // Generate state for CSRF protection
+  const state = generateOAuthState();
+
+  // Store state in session for later verification
+  // In production, use Redis or similar
+  const stateKey = `oauth_state_${state}`;
+  // For now, we'll use the state in the callback directly
+
+  // Generate authorization URL
+  const authUrl = getOAuthAuthorizationUrl(provider, state);
+
+  // Return the auth URL (frontend will redirect)
+  return c.json({
+    authUrl,
+    state,
+    tenantId,
+  });
 });
 
 /**
@@ -309,11 +325,156 @@ app.get('/oauth/callback/:provider', async (c) => {
   const provider = c.req.param('provider');
 
   if (provider !== 'google' && provider !== 'github') {
-    return c.json({ error: 'Bad Request', message: 'Invalid OAuth provider' }, 400);
+    return c.html(
+      renderErrorPage('Invalid Provider', 'The specified OAuth provider is not supported.')
+    );
   }
 
-  // TODO: Implement OAuth callback
-  return c.json({ message: 'OAuth callback not yet implemented' }, 501);
+  const code = c.req.query('code');
+  const state = c.req.query('state');
+  const error = c.req.query('error');
+  const tenantId = c.req.query('state')?.split('_')[1]; // Extract tenant_id from state if embedded
+
+  // Handle OAuth errors
+  if (error) {
+    return c.html(
+      renderErrorPage('OAuth Error', `Authentication was cancelled or failed: ${error}`)
+    );
+  }
+
+  if (!code) {
+    return c.html(
+      renderErrorPage('Missing Code', 'No authorization code received from OAuth provider.')
+    );
+  }
+
+  try {
+    // Complete OAuth flow
+    const result = await completeOAuthFlow(provider, code, tenantId);
+
+    // Return HTML page that sets tokens in localStorage and redirects
+    const html = renderOAuthSuccessPage(result);
+    return c.html(html);
+  } catch (error: any) {
+    console.error('OAuth callback error:', error);
+    return c.html(
+      renderErrorPage(
+        'Authentication Failed',
+        error.message || 'An error occurred during authentication.'
+      )
+    );
+  }
 });
+
+// ============================================
+// OAuth Helper Functions
+// ============================================
+
+function renderOAuthSuccessPage(data: any): string {
+  return `<!DOCTYPE html>
+<html>
+<head>
+  <title>Login Successful</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      text-align: center;
+      max-width: 400px;
+    }
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #667eea;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    h1 { color: #333; margin-bottom: 0.5rem; }
+    p { color: #666; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>✓ Login Successful</h1>
+    <p>Redirecting you to the dashboard...</p>
+    <div class="spinner"></div>
+  </div>
+  <script>
+    // Store tokens in localStorage
+    localStorage.setItem('accessToken', '${data.accessToken}');
+    localStorage.setItem('refreshToken', '${data.refreshToken}');
+
+    // Redirect to dashboard
+    setTimeout(() => {
+      window.location.href = '${process.env.FRONTEND_URL || 'http://localhost:3000'}/dashboard';
+    }, 1500);
+  </script>
+</body>
+</html>`;
+}
+
+function renderErrorPage(title: string, message: string): string {
+  return `<!DOCTYPE html>
+<html>
+<head>
+  <title>${title}</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    }
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      text-align: center;
+      max-width: 400px;
+    }
+    h1 { color: #dc2626; margin-bottom: 1rem; }
+    p { color: #666; margin-bottom: 1.5rem; }
+    a {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: #dc2626;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+    a:hover { background: #b91c1c; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>❌ ${title}</h1>
+    <p>${message}</p>
+    <a href="${process.env.FRONTEND_URL || 'http://localhost:3000'}/login">Back to Login</a>
+  </div>
+</body>
+</html>`;
+}
 
 export default app;
