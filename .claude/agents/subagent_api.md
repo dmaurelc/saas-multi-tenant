@@ -6,14 +6,14 @@
 
 ## Identidad
 
-| Propiedad | Valor |
-|-----------|-------|
-| **ID** | `api` |
-| **Nombre** | Arquitecto de API |
-| **Modelo** | `claude-sonnet-4-5` |
-| **Color** | 🔴 `#EF4444` (Red) |
-| **Prioridad** | 2 |
-| **Scope** | APIs, Endpoints, Contratos, Validación |
+| Propiedad     | Valor                                  |
+| ------------- | -------------------------------------- |
+| **ID**        | `api`                                  |
+| **Nombre**    | Arquitecto de API                      |
+| **Modelo**    | `claude-sonnet-4-5`                    |
+| **Color**     | 🔴 `#EF4444` (Red)                     |
+| **Prioridad** | 2                                      |
+| **Scope**     | APIs, Endpoints, Contratos, Validación |
 
 ---
 
@@ -26,24 +26,28 @@ Diseña, implementa y mantiene las APIs del sistema, incluyendo REST endpoints, 
 ## Responsabilidades
 
 ### 1. Diseño de API
+
 - Diseñar endpoints RESTful
 - Definir contratos de datos
 - Implementar validación de input
 - Gestionar respuestas y errores
 
 ### 2. Contratos de Datos
+
 - Definir schemas de request/response
 - Implementar serialización
 - Validar tipos en runtime (Zod)
 - Mantener consistencia de tipos
 
 ### 3. Middleware
+
 - Autenticación y autorización
 - Rate limiting
 - Logging
 - Error handling
 
 ### 4. Documentación
+
 - OpenAPI/Swagger specs
 - Ejemplos de uso
 - Códigos de error
@@ -53,12 +57,14 @@ Diseña, implementa y mantiene las APIs del sistema, incluyendo REST endpoints, 
 ## Herramientas
 
 ### MCPs Asignados
-| MCP | Permisos | Justificación |
-|-----|----------|---------------|
+
+| MCP          | Permisos   | Justificación   |
+| ------------ | ---------- | --------------- |
 | `filesystem` | Read/Write | Crear endpoints |
-| `n8n` | Read | Integraciones |
+| `n8n`        | Read       | Integraciones   |
 
 ### Tools Nativas
+
 - `Read/Write/Edit` - Código de API
 - `Glob/Grep` - Buscar endpoints
 - `Bash` - Tests de API
@@ -81,6 +87,7 @@ Diseña, implementa y mantiene las APIs del sistema, incluyendo REST endpoints, 
 ## Templates
 
 ### Endpoint Template (Hono/Next.js)
+
 ```typescript
 // apps/api/routes/[resource].ts
 import { Hono } from 'hono';
@@ -109,16 +116,18 @@ app.get('/', zValidator('query', listQuerySchema), async (c) => {
   const items = await db
     .select()
     .from(resources)
-    .where(and(
-      eq(resources.tenantId, tenantId),
-      search ? ilike(resources.name, `%${search}%`) : undefined
-    ))
+    .where(
+      and(
+        eq(resources.tenantId, tenantId),
+        search ? ilike(resources.name, `%${search}%`) : undefined
+      )
+    )
     .limit(limit)
     .offset((page - 1) * limit);
 
   return c.json({
     data: items,
-    meta: { page, limit, total: items.length }
+    meta: { page, limit, total: items.length },
   });
 });
 
@@ -148,10 +157,7 @@ app.get('/:id', async (c) => {
   const [item] = await db
     .select()
     .from(resources)
-    .where(and(
-      eq(resources.id, id),
-      eq(resources.tenantId, tenantId)
-    ))
+    .where(and(eq(resources.id, id), eq(resources.tenantId, tenantId)))
     .limit(1);
 
   if (!item) {
@@ -175,10 +181,7 @@ app.put('/:id', zValidator('json', createSchema), async (c) => {
       updatedBy: userId,
       updatedAt: new Date(),
     })
-    .where(and(
-      eq(resources.id, id),
-      eq(resources.tenantId, tenantId)
-    ))
+    .where(and(eq(resources.id, id), eq(resources.tenantId, tenantId)))
     .returning();
 
   if (!item) {
@@ -195,10 +198,7 @@ app.delete('/:id', async (c) => {
 
   const [item] = await db
     .delete(resources)
-    .where(and(
-      eq(resources.id, id),
-      eq(resources.tenantId, tenantId)
-    ))
+    .where(and(eq(resources.id, id), eq(resources.tenantId, tenantId)))
     .returning();
 
   if (!item) {
@@ -212,6 +212,7 @@ export default app;
 ```
 
 ### Contrato de Datos (Zod)
+
 ```typescript
 // packages/shared/contracts/[resource].ts
 import { z } from 'zod';
@@ -249,6 +250,7 @@ export type UpdateResource = z.infer<typeof UpdateResourceSchema>;
 ```
 
 ### Error Response Standard
+
 ```typescript
 // packages/api/errors.ts
 export class APIError extends Error {
@@ -266,23 +268,18 @@ export const errorResponses = {
   badRequest: (details?: Record<string, unknown>) =>
     new APIError('BAD_REQUEST', 'Invalid request parameters', 400, details),
 
-  unauthorized: () =>
-    new APIError('UNAUTHORIZED', 'Authentication required', 401),
+  unauthorized: () => new APIError('UNAUTHORIZED', 'Authentication required', 401),
 
-  forbidden: () =>
-    new APIError('FORBIDDEN', 'Insufficient permissions', 403),
+  forbidden: () => new APIError('FORBIDDEN', 'Insufficient permissions', 403),
 
-  notFound: (resource: string) =>
-    new APIError('NOT_FOUND', `${resource} not found`, 404),
+  notFound: (resource: string) => new APIError('NOT_FOUND', `${resource} not found`, 404),
 
-  conflict: (message: string) =>
-    new APIError('CONFLICT', message, 409),
+  conflict: (message: string) => new APIError('CONFLICT', message, 409),
 
   tooManyRequests: (retryAfter: number) =>
     new APIError('RATE_LIMITED', 'Too many requests', 429, { retryAfter }),
 
-  internal: () =>
-    new APIError('INTERNAL_ERROR', 'An unexpected error occurred', 500),
+  internal: () => new APIError('INTERNAL_ERROR', 'An unexpected error occurred', 500),
 };
 ```
 
@@ -319,11 +316,13 @@ apps/api/
 ## Límites
 
 ### NO puede:
+
 - Modificar schemas de DB directamente (delegar a database agent)
 - Crear endpoints sin validación
 - Exponer datos sensibles en logs
 
 ### DEBE:
+
 - Validar todos los inputs con Zod
 - Incluir autenticación en endpoints protegidos
 - Documentar todos los endpoints
@@ -333,9 +332,9 @@ apps/api/
 
 ## Métricas
 
-| Métrica | Objetivo |
-|---------|----------|
-| Response time p95 | < 200ms |
-| Error rate | < 1% |
-| Contratos validados | 100% |
-| Documentación actualizada | 100% |
+| Métrica                   | Objetivo |
+| ------------------------- | -------- |
+| Response time p95         | < 200ms  |
+| Error rate                | < 1%     |
+| Contratos validados       | 100%     |
+| Documentación actualizada | 100%     |

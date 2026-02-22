@@ -1,5 +1,5 @@
 {
-  "$schema": "https://claude.ai/settings/schema.json",
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "project": {
     "name": "saas-multi-tenant",
     "description": "Plataforma SaaS multi-tenant con arquitectura modular adaptable a múltiples verticales: eCommerce, SaaS de Servicios, Inmobiliario y Restaurantes",
@@ -118,7 +118,16 @@
   "verticals": {
     "ecommerce": {
       "enabled": true,
-      "features": ["products", "categories", "cart", "checkout", "orders", "inventory", "shipping", "coupons"]
+      "features": [
+        "products",
+        "categories",
+        "cart",
+        "checkout",
+        "orders",
+        "inventory",
+        "shipping",
+        "coupons"
+      ]
     },
     "services": {
       "enabled": true,
@@ -297,11 +306,31 @@
     },
     "owner": {
       "description": "Dueño del tenant con control total",
-      "permissions": ["tenant:read", "tenant:write", "tenant:delete", "users:read", "users:write", "users:delete", "billing:read", "billing:write", "settings:read", "settings:write"]
+      "permissions": [
+        "tenant:read",
+        "tenant:write",
+        "tenant:delete",
+        "users:read",
+        "users:write",
+        "users:delete",
+        "billing:read",
+        "billing:write",
+        "settings:read",
+        "settings:write"
+      ]
     },
     "admin": {
       "description": "Administrador del tenant",
-      "permissions": ["tenant:read", "users:read", "users:write", "settings:read", "settings:write", "content:read", "content:write", "content:delete"]
+      "permissions": [
+        "tenant:read",
+        "users:read",
+        "users:write",
+        "settings:read",
+        "settings:write",
+        "content:read",
+        "content:write",
+        "content:delete"
+      ]
     },
     "staff": {
       "description": "Personal del tenant",
@@ -309,7 +338,13 @@
     },
     "customer": {
       "description": "Cliente del tenant",
-      "permissions": ["content:read", "orders:read", "orders:write:self", "profile:read", "profile:write:self"]
+      "permissions": [
+        "content:read",
+        "orders:read",
+        "orders:write:self",
+        "profile:read",
+        "profile:write:self"
+      ]
     }
   },
   "plans": {

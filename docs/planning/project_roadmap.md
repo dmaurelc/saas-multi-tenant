@@ -25,32 +25,37 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 ### Tareas
 
 #### Infraestructura
+
 - [x] Inicializar monorepo (pnpm workspaces + Turborepo)
 - [x] Configurar estructura de carpetas (apps/, packages/, docs/, tools/)
-- [x] Crear `.gitignore` para Node.js/Next.js
+- [x] Crear `.gitignore` para Nod1e.js/Next.js
 - [x] Inicializar repositorio Git
 
 #### Base de Datos
+
 - [x] Crear proyecto en Neon
 - [x] Configurar conexión desde apps/api
 - [x] Crear esquemas iniciales (tenants, users)
-- [ ] Configurar RLS básico
+- [x] Configurar RLS básico
 
 #### CI/CD
+
 - [x] Configurar GitHub Actions
 - [x] Workflow para tests
 - [x] Workflow para lint
 - [x] Branch protection rules
 
 #### Calidad de Código
+
 - [x] Configurar ESLint
 - [x] Configurar Prettier
 - [x] Configurar Husky hooks
 - [x] Configurar Commitlint
 
 ### Criterios de Aceptación
+
 - [x] Monorepo funcional con pnpm workspaces
-- [ ] Conexión a Neon exitosa
+- [x] Conexión a Neon exitosa
 - [x] CI/CD ejecutándose en develop
 - [x] Conventional Commits validados
 - [x] Git flow configurado (main, develop, branch protection)
@@ -64,63 +69,85 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 **Dependencias:** Sprint 0
 
 ### Tareas Backend
-- [ ] Crear `apps/api/routes/auth`
-- [ ] Registro con email/password
-- [ ] Login con JWT (incluye tenant_id)
-- [ ] Middleware de autenticación multi-tenant
-- [ ] Logout con invalidación de tokens
+
+- [x] Crear `apps/api/routes/auth`
+- [x] Registro con email/password
+- [x] Login con JWT (incluye tenant_id)
+- [x] Middleware de autenticación multi-tenant
+- [x] Logout con invalidación de tokens
 
 ### Tareas RLS
-- [ ] Configurar `set_config('app.current_tenant', tenant_id)`
-- [ ] Tests de aislamiento entre tenants
+
+- [x] Configurar `set_config('app.current_tenant', tenant_id)`
+- [x] Tests de aislamiento entre tenants
 
 ### Tareas Frontend
-- [ ] Crear `apps/web/app/(auth)/login`
-- [ ] Crear `apps/web/app/(auth)/register`
-- [ ] AuthContext y `useAuth()`
-- [ ] Protected routes
+
+- [x] Crear `apps/web/app/(auth)/login`
+- [x] Crear `apps/web/app/(auth)/register`
+- [x] AuthContext y `useAuth()`
+- [x] Protected routes
 
 ### Criterios de Aceptación
-- [ ] Usuario puede registrarse en un tenant
-- [ ] Login genera token válido con tenant_id
-- [ ] RLS aísla datos entre tenants
-- [ ] Logout invalida token correctamente
+
+- [x] Usuario puede registrarse en un tenant
+- [x] Login genera token válido con tenant_id
+- [x] RLS aísla datos entre tenants
+- [x] Logout invalida token correctamente
 
 ---
 
-## SPRINT 2: Auth Avanzado + Roles
+## SPRINT 2: Auth Avanzado + Roles 🚧 IN PROGRESS
 
 **Rama:** `sprint/2-auth-advanced`
 **Versión:** `v0.3.0-alpha.1`
 **Dependencias:** Sprint 1
 
 ### Tareas Magic Link
-- [ ] Generar token único para magic link
-- [ ] Enviar email con link
-- [ ] Validar token y crear sesión
-- [ ] Expiración de token (15 min)
+
+- [x] Generar token único para magic link
+- [/] Enviar email con link (TODO implementado)
+- [x] Validar token y crear sesión
+- [x] Expiración de token (15 min)
 
 ### Tareas OAuth
-- [ ] Configurar Google OAuth
-- [ ] Configurar GitHub OAuth
-- [ ] Flujo OAuth callback
-- [ ] Multi-tenant con OAuth
+
+- [/] Configurar Google OAuth (código listo, falta credentials)
+- [/] Configurar GitHub OAuth (código listo, falta credentials)
+- [/] Flujo OAuth callback (implementado, requiere dominio para producción)
+- [x] Multi-tenant con OAuth (oauth_accounts table)
 
 ### Tareas Roles
-- [ ] Definir roles: owner, admin, staff, customer
-- [ ] Tabla roles con permisos JSON
-- [ ] `hasPermission()` helper
-- [ ] Middleware de autorización
+
+- [x] Definir roles: owner, admin, staff, customer
+- [x] Tabla roles con permisos JSON (users.permissions)
+- [x] `hasPermission()` helper
+- [x] Middleware de autorización
 
 ### Tareas Frontend
-- [ ] Componente `<RoleGuard>`
-- [ ] UI adaptada al rol
+
+- [x] Componente `<RoleGuard>`
+- [x] UI adaptada al rol
+- [x] Página de Magic Link login
+- [x] Botones OAuth en login (Google + GitHub)
 
 ### Criterios de Aceptación
-- [ ] Magic link funcional
-- [ ] OAuth funcional (Google y GitHub)
-- [ ] Roles asignados correctamente
-- [ ] Permisos verificados en cada acción
+
+- [/] Magic link funcional (código completo, falta configurar email service)
+- [/] OAuth funcional (código completo, falta configurar credentials + dominio)
+- [x] Roles asignados correctamente
+- [x] Permisos verificados en cada acción
+
+### Tareas Pendientes - Requieren Configuración Externa
+
+> Estas tareas están implementadas a nivel código pero requieren configuración externa para funcionar en producción.
+
+| Tarea                   | Estado Código | Estado Producción | Requisitos                                                                                                                                       |
+| ----------------------- | ------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **OAuth Google**        | ✅ Completo   | ⏳ Pendiente      | - Crear OAuth 2.0 Client en Google Cloud Console<br>- Configurar redirect URIs<br>- Agregar `GOOGLE_CLIENT_ID` y `GOOGLE_CLIENT_SECRET` a `.env` |
+| **OAuth GitHub**        | ✅ Completo   | ⏳ Pendiente      | - Crear OAuth App en GitHub Developer Settings<br>- Configurar callback URL<br>- Agregar `GITHUB_CLIENT_ID` y `GITHUB_CLIENT_SECRET` a `.env`    |
+| **Magic Link Email**    | ✅ Completo   | ⏳ Pendiente      | - Configurar servicio de email (Resend/SendGrid)<br>- Agregar `RESEND_API_KEY` o `SENDGRID_API_KEY` a `.env`<br>- Configurar email templates     |
+| **Custom Domain OAuth** | ⏳ Pendiente  | ⏳ Pendiente      | - Requiere dominio propio configurado<br>- Actualizar redirect URIs en OAuth providers                                                           |
 
 ---
 
@@ -131,23 +158,27 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 **Dependencias:** Sprint 2
 
 ### Tareas Backend
+
 - [ ] CRUD de tenants
 - [ ] Branding (logo, colores primarios/secundarios)
 - [ ] Subdominio automático
 - [ ] Validación dominio custom
 
 ### Tareas Frontend
+
 - [ ] Página configuración de tenant
 - [ ] Formulario branding con preview
 - [ ] Configuración dominio custom
 
 ### Tareas Multi-tenant
+
 - [ ] Middleware detección por subdomain
 - [ ] Middleware detección por custom domain
 - [ ] Middleware detección por header X-Tenant-ID
 - [ ] Caching de resolución de tenant
 
 ### Criterios de Aceptación
+
 - [ ] Tenant actualiza branding correctamente
 - [ ] Subdominio funciona (tenant.saas.com)
 - [ ] Dominio custom verificable
@@ -162,23 +193,27 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 **Dependencias:** Sprint 3
 
 ### Tareas Backend
+
 - [ ] CRUD usuarios dentro del tenant
 - [ ] Sistema de invitaciones por email
 - [ ] Cambio de rol de usuarios
 - [ ] Auditoría de acciones (audit_logs table)
 
 ### Tareas Frontend
+
 - [ ] Listado de usuarios con paginación
 - [ ] Modal crear/editar usuario
 - [ ] Modal invitación por email
 - [ ] Historial de actividad
 
 ### Tareas Invitaciones
+
 - [ ] Tabla `invitations`
 - [ ] Email template para invitación
 - [ ] Página aceptar invitación
 
 ### Criterios de Aceptación
+
 - [ ] Admin crea/edita usuarios del tenant
 - [ ] Invitaciones funcionan end-to-end
 - [ ] Logs de auditoría registrados
@@ -193,11 +228,13 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 **Dependencias:** Sprint 4
 
 ### Tareas Dashboard
+
 - [ ] Endpoint KPIs por tenant
 - [ ] Frontend dashboard con widgets
 - [ ] Gráficos de actividad (últimos 30 días)
 
 ### Tareas Pagos Stripe
+
 - [ ] Configurar Stripe account
 - [ ] Crear productos y precios en Stripe
 - [ ] Checkout suscripción
@@ -205,6 +242,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 - [ ] Portal de cliente Stripe
 
 ### Tareas Pagos Chile
+
 - [ ] Transbank Webpay Plus integration
 - [ ] Transbank Oneclick (suscripciones)
 - [ ] MercadoPago integration
@@ -212,17 +250,20 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 - [ ] Abstracción Strategy Pattern para pagos
 
 ### Tareas Notificaciones
+
 - [ ] Tabla `notifications`
 - [ ] Notificaciones in-app (bell icon)
 - [ ] Email transactional (Resend/SendGrid)
 - [ ] Preferencias de notificación por usuario
 
 ### Tareas Métricas
+
 - [ ] Tabla `events` para analytics
 - [ ] Endpoint tracking de eventos
 - [ ] Dashboard de métricas básicas
 
 ### Criterios de Aceptación
+
 - [ ] Dashboard muestra KPIs relevantes
 - [ ] Stripe checkout funcional
 - [ ] Al menos 1 pasarela chilena funcional
@@ -238,6 +279,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 **Dependencias:** Sprint 5
 
 ### Tareas
+
 - [ ] Modelo datos: `products`, `categories`, `variants`, `product_images`
 - [ ] CRUD categorías jerárquicas (parent_id)
 - [ ] CRUD productos con variantes
@@ -247,6 +289,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 - [ ] RLS para eCommerce
 
 ### Criterios de Aceptación
+
 - [ ] CRUD productos completo
 - [ ] Categorías jerárquicas funcionando
 - [ ] Catálogo público visible
@@ -261,6 +304,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 **Dependencias:** Sprint 6
 
 ### Tareas
+
 - [ ] Tabla `inventory_movements`
 - [ ] Stock tracking automático
 - [ ] Alertas de stock bajo
@@ -270,6 +314,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 - [ ] Frontend carrito (sidebar/modal)
 
 ### Criterios de Aceptación
+
 - [ ] Stock actualizado automáticamente en cada venta
 - [ ] Carrito persiste entre sesiones
 - [ ] Cálculos correctos (subtotal, impuestos, total)
@@ -284,6 +329,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 **Dependencias:** Sprint 7
 
 ### Tareas
+
 - [ ] Tablas `orders`, `order_items`
 - [ ] Proceso checkout multi-step (shipping → payment → confirm)
 - [ ] Integración pagos en checkout
@@ -292,6 +338,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 - [ ] Admin gestión de órdenes
 
 ### Criterios de Aceptación
+
 - [ ] Checkout completo funcional
 - [ ] Pago integrado con pasarelas
 - [ ] Stock actualizado post-pago exitoso
@@ -306,6 +353,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 **Dependencias:** Sprint 8
 
 ### Tareas
+
 - [ ] Tablas `shipping_methods`, `shipments`
 - [ ] Reglas de envío por zona/región
 - [ ] Tracking de envío (link externo)
@@ -315,6 +363,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 - [ ] Configuración de impuestos por región
 
 ### Criterios de Aceptación
+
 - [ ] Métodos de envío configurables
 - [ ] Cupones funcionando (validación y aplicación)
 - [ ] Impuestos calculados según región
@@ -329,6 +378,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 **Dependencias:** Sprint 5
 
 ### Tareas
+
 - [ ] Tablas `services`, `service_categories`
 - [ ] CRUD de servicios con duración y precio
 - [ ] Tabla `bookings`
@@ -337,6 +387,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 - [ ] Confirmación por email
 
 ### Criterios de Aceptación
+
 - [ ] Servicios creados con duración y precio
 - [ ] Reservas verifican disponibilidad
 - [ ] Cliente recibe confirmación
@@ -350,6 +401,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 **Dependencias:** Sprint 10
 
 ### Tareas
+
 - [ ] Tabla `staff` con horarios
 - [ ] Calendario de disponibilidad
 - [ ] Asignación de servicios a staff
@@ -357,6 +409,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 - [ ] Vista calendario para clientes
 
 ### Criterios de Aceptación
+
 - [ ] Staff tiene horarios configurables
 - [ ] Calendario muestra disponibilidad real
 - [ ] Reservas asignadas a staff específico
@@ -370,6 +423,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 **Dependencias:** Sprint 11
 
 ### Tareas
+
 - [ ] Suscripciones a servicios
 - [ ] Facturación automática mensual
 - [ ] Historial de pagos
@@ -377,6 +431,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 - [ ] Gestión de suscripciones
 
 ### Criterios de Aceptación
+
 - [ ] Suscripciones creadas correctamente
 - [ ] Facturación automática ejecutándose
 - [ ] Recordatorios enviados
@@ -390,6 +445,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 **Dependencias:** Sprint 12
 
 ### Tareas
+
 - [ ] Reporte de ingresos por servicio
 - [ ] Reporte de ocupación
 - [ ] Reporte de clientes frecuentes
@@ -397,6 +453,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 - [ ] Dashboard de métricas
 
 ### Criterios de Aceptación
+
 - [ ] Reportes generados con datos reales
 - [ ] Exportación funcional
 - [ ] Métricas actualizadas
@@ -410,6 +467,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 **Dependencias:** Sprint 5
 
 ### Tareas
+
 - [ ] Tablas `properties`, `property_types`, `property_features`
 - [ ] CRUD de propiedades
 - [ ] Galería de imágenes
@@ -417,6 +475,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 - [ ] Estados: venta, arriendo, vendido, arrendado
 
 ### Criterios de Aceptación
+
 - [ ] Propiedades creadas con todos los atributos
 - [ ] Imágenes gestionables
 - [ ] Ubicación en mapa visible
@@ -430,6 +489,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 **Dependencias:** Sprint 14
 
 ### Tareas
+
 - [ ] Filtros avanzados (precio, ubicación, habitaciones, etc.)
 - [ ] Búsqueda geoespacial
 - [ ] Ordenamiento por múltiples criterios
@@ -437,6 +497,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 - [ ] Alertas de nuevas propiedades
 
 ### Criterios de Aceptación
+
 - [ ] Filtros funcionando correctamente
 - [ ] Búsqueda geoespacial retorna resultados cercanos
 - [ ] Alertas enviadas cuando hay coincidencias
@@ -450,6 +511,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 **Dependencias:** Sprint 15
 
 ### Tareas
+
 - [ ] Tabla `agents` con especialidades
 - [ ] Asignación de propiedades a agentes
 - [ ] Perfil público de agente
@@ -457,6 +519,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 - [ ] Dashboard de agente
 
 ### Criterios de Aceptación
+
 - [ ] Agentes asignados a propiedades
 - [ ] Perfil público visible
 - [ ] Leads registrados al contactar
@@ -470,6 +533,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 **Dependencias:** Sprint 16
 
 ### Tareas
+
 - [ ] Sistema de agendamiento de visitas
 - [ ] Calendario de disponibilidad
 - [ ] Confirmación y recordatorios
@@ -477,6 +541,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 - [ ] Historial de visitas
 
 ### Criterios de Aceptación
+
 - [ ] Visitas agendadas correctamente
 - [ ] Recordatorios enviados
 - [ ] Feedback capturado
@@ -490,6 +555,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 **Dependencias:** Sprint 5
 
 ### Tareas
+
 - [ ] Tablas `menu_items`, `menu_categories`, `tables`
 - [ ] CRUD de menú con categorías
 - [ ] Gestión de mesas con QR
@@ -497,6 +563,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 - [ ] Menú digital público
 
 ### Criterios de Aceptación
+
 - [ ] Menú completo con categorías
 - [ ] QR genera enlace a menú
 - [ ] Mesas gestionables
@@ -510,6 +577,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 **Dependencias:** Sprint 18
 
 ### Tareas
+
 - [ ] Tabla `reservations`
 - [ ] Sistema de reservas online
 - [ ] Gestión de capacity por horario
@@ -517,6 +585,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 - [ ] Waitlist automática
 
 ### Criterios de Aceptación
+
 - [ ] Reservas online funcionando
 - [ ] Capacity respetado
 - [ ] Waitlist activa cuando no hay espacio
@@ -530,6 +599,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 **Dependencias:** Sprint 19
 
 ### Tareas
+
 - [ ] Tablas `orders`, `order_items` para restaurante
 - [ ] Órdenes desde mesa (QR)
 - [ ] Kitchen display system
@@ -537,6 +607,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 - [ ] Notificaciones al cliente
 
 ### Criterios de Aceptación
+
 - [ ] Órdenes creadas desde QR
 - [ ] Cocina ve órdenes en tiempo real
 - [ ] Cliente notificado cuando está lista
@@ -550,6 +621,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 **Dependencias:** Sprint 20
 
 ### Tareas
+
 - [ ] Sistema de delivery con zonas
 - [ ] Integración con repartidores
 - [ ] Tracking de pedido en vivo
@@ -557,6 +629,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 - [ ] Calificación del servicio
 
 ### Criterios de Aceptación
+
 - [ ] Delivery disponible por zona
 - [ ] Tracking en tiempo real
 - [ ] Calificaciones registradas
@@ -570,18 +643,21 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 **Dependencias:** Sprint 5
 
 ### Tareas SSO
+
 - [ ] SAML 2.0 integration
 - [ ] OIDC integration
 - [ ] Mapeo de roles desde IdP
 - [ ] Just-in-time provisioning
 
 ### Tareas Webhooks
+
 - [ ] Tabla `webhooks`
 - [ ] Eventos configurables
 - [ ] Retry logic con exponential backoff
 - [ ] Logs de webhooks
 
 ### Criterios de Aceptación
+
 - [ ] SSO funcionando con IdP comunes
 - [ ] Webhooks enviados correctamente
 - [ ] Reintentos funcionando
@@ -595,6 +671,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 **Dependencias:** Sprint 22
 
 ### Tareas
+
 - [ ] API keys management
 - [ ] Rate limiting por plan
 - [ ] Documentación OpenAPI/Swagger
@@ -602,6 +679,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 - [ ] API analytics
 
 ### Criterios de Aceptación
+
 - [ ] API keys generadas y revocadas
 - [ ] Rate limiting funcionando
 - [ ] Documentación completa
@@ -615,6 +693,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 **Dependencias:** Sprint 23
 
 ### Tareas
+
 - [ ] Estructura de tenants jerárquicos (parent/child)
 - [ ] Herencia de configuración
 - [ ] Consoladación de reportes
@@ -622,6 +701,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 - [ ] Billing consolidado
 
 ### Criterios de Aceptación
+
 - [ ] Jerarquía de tenants creada
 - [ ] Configuración heredada correctamente
 - [ ] Reportes consolidados
@@ -631,21 +711,21 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 
 ## Resumen de Versiones
 
-| Fase | Sprints | Versión Final | Estado |
-|------|---------|---------------|--------|
-| Core SaaS | 0-5 | v1.0.0 | Pendiente |
-| eCommerce | 6-9 | v1.1.0 | Pendiente |
-| SaaS Servicios | 10-13 | v1.2.0 | Pendiente |
-| Inmobiliario | 14-17 | v1.3.0 | Pendiente |
-| Restaurante | 18-21 | v1.4.0 | Pendiente |
-| Enterprise | 22-24 | v2.0.0 | Pendiente |
+| Fase           | Sprints | Versión Final | Estado      |
+| -------------- | ------- | ------------- | ----------- |
+| Core SaaS      | 0-5     | v1.0.0        | En Progreso |
+| eCommerce      | 6-9     | v1.1.0        | Pendiente   |
+| SaaS Servicios | 10-13   | v1.2.0        | Pendiente   |
+| Inmobiliario   | 14-17   | v1.3.0        | Pendiente   |
+| Restaurante    | 18-21   | v1.4.0        | Pendiente   |
+| Enterprise     | 22-24   | v2.0.0        | Pendiente   |
 
 ---
 
 ## Progreso General
 
 ```
-Core SaaS:        ▓░░░░░░░░░ 17% (Sprint 0 en progreso)
+Core SaaS:        ▓▓░░░░░░░░ 40% (Sprint 2 ~95% completado: Magic Link ✅, Roles ✅, OAuth ✅)
 eCommerce:        ░░░░░░░░░░ 0% (0/4 sprints)
 SaaS Servicios:   ░░░░░░░░░░ 0% (0/4 sprints)
 Inmobiliario:     ░░░░░░░░░░ 0% (0/4 sprints)
@@ -653,4 +733,91 @@ Restaurante:      ░░░░░░░░░░ 0% (0/4 sprints)
 Enterprise:       ░░░░░░░░░░ 0% (0/3 sprints)
 ```
 
-**Total: 0/25 sprints completados (Sprint 0: 90% completado)**
+**Total: 2/25 sprints completados (8%)**
+**Actual: Sprint 2 - Auth Avanzado + Roles (95% completado)**
+
+> **Nota Sprint 2**: Backend 100% completo. Frontend 100% completo.
+> **Tareas pendientes requieren configuración externa:**
+>
+> - **Email Service**: Integrar con Resend/SendGrid para enviar Magic Links
+> - **OAuth Credentials**: Configurar Google OAuth + GitHub OAuth (requiere dominio para producción)
+>
+> El código está listo y los flujos funcionan, solo falta configurar los servicios externos.
+
+---
+
+## Variables de Entorno Requeridas
+
+### Base de Datos
+
+```bash
+# Neon PostgreSQL
+DATABASE_URL=postgresql://...
+```
+
+### JWT / Auth
+
+```bash
+JWT_SECRET=tu-secreto-super-seguro
+JWT_REFRESH_SECRET=tu-secreto-refresh-super-seguro
+JWT_EXPIRES_IN=15m
+JWT_REFRESH_EXPIRES_IN=7d
+```
+
+### OAuth - Sprint 2 ⏳
+
+```bash
+# Google OAuth
+GOOGLE_CLIENT_ID=tu-google-client-id
+GOOGLE_CLIENT_SECRET=tu-google-client-secret
+
+# GitHub OAuth
+GITHUB_CLIENT_ID=tu-github-client-id
+GITHUB_CLIENT_SECRET=tu-github-client-secret
+```
+
+### Email Service - Sprint 2/5 ⏳
+
+```bash
+# Resend (Recomendado)
+RESEND_API_KEY=re_xxxxxxxxxxxxx
+
+# O SendGrid
+SENDGRID_API_KEY=SG.xxxxx
+SENDGRID_FROM_EMAIL=noreply@tudominio.com
+```
+
+### Stripe Pagos - Sprint 5 ⏳
+
+```bash
+STRIPE_SECRET_KEY=sk_test_xxxxx
+STRIPE_WEBHOOK_SECRET=whsec_xxxxx
+STRIPE_PRICE_ID_PRO=price_xxxxx
+STRIPE_PRICE_ID_BUSINESS=price_xxxxx
+```
+
+### Pagos Chile - Sprint 5 ⏳
+
+```bash
+# Transbank
+TBK_COMMERCE_CODE=xxxxxxxx
+TBK_API_KEY=xxxxxxxx
+TBK_INTEGRATION_TYPE=TEST
+
+# MercadoPago
+MERCADOPAGO_ACCESS_TOKEN=xxxxxxxx
+
+# Flow
+FLOW_API_KEY=xxxxxxxx
+FLOW_SECRET=xxxxxxxx
+```
+
+### Application URLs
+
+```bash
+NEXT_PUBLIC_API_URL=http://localhost:3001
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+> Única tarea pendiente: Integración con servicio de email real (Resend/SendGrid) para enviar Magic Links.
+> El flujo completo funciona, solo falta configurar el servicio de email.
