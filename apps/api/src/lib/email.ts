@@ -1,7 +1,13 @@
 // Email Service using Resend
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Lazy initialization to avoid errors during test imports
+function getResendClient() {
+  if (!process.env.RESEND_API_KEY) {
+    return null;
+  }
+  return new Resend(process.env.RESEND_API_KEY);
+}
 
 interface EmailOptions {
   to: string;
@@ -11,8 +17,10 @@ interface EmailOptions {
 }
 
 export async function sendEmail({ to, subject, html, text }: EmailOptions) {
+  const resend = getResendClient();
+
   // Skip if Resend is not configured
-  if (!process.env.RESEND_API_KEY) {
+  if (!resend) {
     console.log('Email service not configured. Would send:', { to, subject });
     return { id: 'mock-id' };
   }
@@ -42,4 +50,4 @@ export const EmailTemplates = {
   NOTIFICATION: 'notification',
 };
 
-export { resend };
+export { getResendClient };
