@@ -2,13 +2,13 @@
 
 ## Branches Principales
 
-| Branch | Propósito | Protección |
-|--------|-----------|------------|
-| `main` | Producción | Merge solo desde releases |
-| `develop` | Testing e integración | Require PR + tests passing |
-| `sprint/X` | Desarrollo de sprint | Delete after merge |
-| `feature/sprint-X-*` | Features individuales | Delete after merge |
-| `release/vX.X.X` | Preparación de release | Delete after merge |
+| Branch               | Propósito              | Protección                 |
+| -------------------- | ---------------------- | -------------------------- |
+| `main`               | Producción             | Merge solo desde releases  |
+| `develop`            | Testing e integración  | Require PR + tests passing |
+| `sprint/X`           | Desarrollo de sprint   | Delete after merge         |
+| `feature/sprint-X-*` | Features individuales  | Delete after merge         |
+| `release/vX.X.X`     | Preparación de release | Delete after merge         |
 
 ## Flujo de Trabajo Completo
 
@@ -107,37 +107,66 @@ git push origin --delete sprint/5-core-complete
 git push origin --delete feature/sprint-5-stripe-integration
 ```
 
+### 8. Sprint Completion Checklist
+
+**IMPORTANTE**: Al finalizar CADA sprint, seguir este checklist obligatoriamente:
+
+- [ ] Actualizar `docs/planning/project_roadmap.md` con tareas completadas del sprint
+- [ ] Documentar tareas pendientes en tabla separada del roadmap (requieren config externa)
+- [ ] Crear tag release con **versión especificada en `project_roadmap.md`** (no usar fórmula)
+- [ ] Merge a `develop` con todos los cambios del sprint
+- [ ] Crear nueva rama para el siguiente sprint
+- [ ] **REGLA DE ORO**: Commits SIN mencionar Claude ni ninguna referencia externa
+
+#### Ejemplo de comando para tag de release
+
+```bash
+# La versión debe ser la especificada en project_roadmap.md para cada sprint
+git tag -a v0.5.0-alpha.1 -m "Release v0.5.0-alpha.1 - Sprint 4: Gestión de Usuarios"
+git push origin v0.5.0-alpha.1
+```
+
+#### Ejemplo de commit válido
+
+```bash
+# ✅ CORRECTO
+git commit -m "feat(auth): implement oauth for google and github"
+
+# ❌ INCORRECTO
+git commit -m "feat(auth): implement oauth - Claude helped with this"
+```
+
 ---
 
 ## Conventional Commits
 
-| Tipo | Descripción | Ejemplo |
-|------|-------------|---------|
-| `feat` | Nueva funcionalidad | `feat(auth): add magic link authentication` |
-| `fix` | Bug fix | `fix(payments): fix webhook signature validation` |
-| `docs` | Documentación | `docs(readme): update installation instructions` |
-| `refactor` | Refactor sin cambios de comportamiento | `refactor(auth): extract token validation logic` |
-| `test` | Tests | `test(tenants): add RLS isolation tests` |
-| `chore` | Mantenimiento | `chore(deps): update dependencies` |
-| `perf` | Mejoras de performance | `perf(api): add query caching` |
-| `style` | Formato de código | `style(ui): format components` |
+| Tipo       | Descripción                            | Ejemplo                                           |
+| ---------- | -------------------------------------- | ------------------------------------------------- |
+| `feat`     | Nueva funcionalidad                    | `feat(auth): add magic link authentication`       |
+| `fix`      | Bug fix                                | `fix(payments): fix webhook signature validation` |
+| `docs`     | Documentación                          | `docs(readme): update installation instructions`  |
+| `refactor` | Refactor sin cambios de comportamiento | `refactor(auth): extract token validation logic`  |
+| `test`     | Tests                                  | `test(tenants): add RLS isolation tests`          |
+| `chore`    | Mantenimiento                          | `chore(deps): update dependencies`                |
+| `perf`     | Mejoras de performance                 | `perf(api): add query caching`                    |
+| `style`    | Formato de código                      | `style(ui): format components`                    |
 
 ### Scope por Módulo
 
-| Scope | Descripción |
-|-------|-------------|
-| `auth` | Autenticación y autorización |
-| `tenants` | Gestión de tenants |
-| `users` | Gestión de usuarios |
-| `payments` | Pagos y suscripciones |
-| `notifications` | Sistema de notificaciones |
-| `ecommerce` | Módulo eCommerce |
-| `services` | Módulo SaaS Servicios |
-| `realestate` | Módulo Inmobiliario |
-| `restaurant` | Módulo Restaurante |
-| `api` | API pública |
-| `ui` | Componentes de UI |
-| `db` | Base de datos y migraciones |
+| Scope           | Descripción                  |
+| --------------- | ---------------------------- |
+| `auth`          | Autenticación y autorización |
+| `tenants`       | Gestión de tenants           |
+| `users`         | Gestión de usuarios          |
+| `payments`      | Pagos y suscripciones        |
+| `notifications` | Sistema de notificaciones    |
+| `ecommerce`     | Módulo eCommerce             |
+| `services`      | Módulo SaaS Servicios        |
+| `realestate`    | Módulo Inmobiliario          |
+| `restaurant`    | Módulo Restaurante           |
+| `api`           | API pública                  |
+| `ui`            | Componentes de UI            |
+| `db`            | Base de datos y migraciones  |
 
 ---
 
@@ -183,7 +212,7 @@ required_pull_request_reviews:
 # Allow squash merge
 ```
 
-### sprint/X y feature/sprint-X-*
+### sprint/X y feature/sprint-X-\*
 
 ```yaml
 required_status_checks:
@@ -262,17 +291,31 @@ module.exports = {
     'type-enum': [
       2,
       'always',
-      ['feat', 'fix', 'docs', 'refactor', 'test', 'chore', 'perf', 'style', 'revert']
+      ['feat', 'fix', 'docs', 'refactor', 'test', 'chore', 'perf', 'style', 'revert'],
     ],
     'scope-enum': [
       2,
       'always',
-      ['auth', 'tenants', 'users', 'payments', 'notifications', 'ecommerce', 'services', 'realestate', 'restaurant', 'api', 'ui', 'db', 'core']
+      [
+        'auth',
+        'tenants',
+        'users',
+        'payments',
+        'notifications',
+        'ecommerce',
+        'services',
+        'realestate',
+        'restaurant',
+        'api',
+        'ui',
+        'db',
+        'core',
+      ],
     ],
     'subject-case': [2, 'always', 'lower-case'],
     'subject-max-length': [2, 'always', 72],
-    'body-max-line-length': [2, 'always', 100]
-  }
+    'body-max-line-length': [2, 'always', 100],
+  },
 };
 ```
 
