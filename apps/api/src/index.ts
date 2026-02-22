@@ -5,6 +5,8 @@ import { prettyJSON } from 'hono/pretty-json';
 import authRoutes from './routes/auth';
 import authAdvancedRoutes from './routes/auth-advanced';
 import tenantsRoutes from './routes/tenants';
+import usersRoutes from './routes/users';
+import invitationsRoutes from './routes/invitations';
 import { apiRateLimit } from './middleware/rateLimit';
 import { tenantResolver } from './middleware/tenant';
 
@@ -83,6 +85,12 @@ app.route('/api/v1/auth', authAdvancedRoutes);
 
 // Tenant routes (CRUD)
 app.route('/api/v1/tenants', tenantsRoutes);
+
+// User routes (CRUD)
+app.route('/api/v1/users', usersRoutes);
+
+// Invitation routes
+app.route('/api/v1/invitations', invitationsRoutes);
 
 // ============================================
 // Error Handling

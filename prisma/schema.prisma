@@ -28,8 +28,9 @@ model Tenant {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  users     User[]
-  auditLogs AuditLog[]
+  users        User[]
+  auditLogs    AuditLog[]
+  invitations  Invitation[]
 
   @@index([slug])
   @@index([customDomain])
@@ -59,6 +60,8 @@ model User {
   sessions     Session[]
   magicLinks   MagicLink[]
   oauthAccounts OAuthAccount[]
+  invitationsSent Invitation[] @relation("Inviter")
+  invitationsAccepted Invitation[] @relation("Accepter")
 
   @@index([tenantId])
   @@index([email])
@@ -126,6 +129,32 @@ model OAuthAccount {
   @@index([userId])
   @@index([provider])
   @@map("oauth_accounts")
+}
+
+// ============================================
+// INVITATION - User invitations
+// ============================================
+
+model Invitation {
+  id           String        @id @default(uuid())
+  tenantId     String        @map("tenant_id")
+  tenant       Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  email        String
+  role         Role          @default(STAFF)
+  token        String        @unique
+  expiresAt    DateTime      @map("expires_at")
+  acceptedAt   DateTime?     @map("accepted_at")
+  invitedBy    String        @map("invited_by")
+  invitedByUser User         @relation("Inviter", fields: [invitedBy], references: [id], onDelete: Cascade)
+  acceptedBy   String?       @map("accepted_by")
+  acceptedUser User?         @relation("Accepter", fields: [acceptedBy], references: [id], onDelete: SetNull)
+  createdAt    DateTime      @default(now()) @map("created_at")
+
+  @@index([tenantId])
+  @@index([email])
+  @@index([token])
+  @@index([expiresAt])
+  @@map("invitations")
 }
 
 // ============================================
