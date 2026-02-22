@@ -5,9 +5,8 @@ Esta carpeta contiene la definición completa del sistema de agentes IA para el 
 ## Estructura
 
 ```
-docs/agents/
+.claude/agents/
 ├── README.md                    # Este archivo
-├── system_definition.md         # Definición completa del sistema
 ├── orchestrator.md              # Agente orquestador principal
 ├── subagent_planning.md         # Subagente de planificación
 ├── subagent_documentation.md    # Subagente de documentación
@@ -21,15 +20,19 @@ docs/agents/
 └── subagent_git.md              # Subagente de git
 ```
 
+> Ver [docs/agents/system_definition.md](../../docs/agents/system_definition.md) para la definición completa del sistema.
+
 ## Inicio Rápido
 
 ### Invocar al Orquestador
+
 ```
 /orchestrate <descripción de la tarea>
 /orch <descripción>
 ```
 
 ### Invocar Subagentes Directamente
+
 ```
 /plan <comando>      # Planificación
 /doc <comando>       # Documentación
@@ -45,23 +48,24 @@ docs/agents/
 
 ## Agentes Disponibles
 
-| Agente | ID | Modelo | Color | Especialidad |
-|--------|-----|--------|-------|--------------|
-| Orquestador | `orchestrator` | claude-opus-4-6 | 🟣 | Coordinación |
-| Planning | `planning` | claude-sonnet-4-5 | 🔵 | Roadmaps, Sprints |
-| Documentation | `documentation` | claude-haiku-4-5 | 🟢 | Docs, API docs |
-| Database | `database` | claude-sonnet-4-5 | 🟡 | Neon, RLS, Migrations |
-| API | `api` | claude-sonnet-4-5 | 🔴 | Endpoints, Contratos |
-| UX/UI | `uxui` | claude-sonnet-4-5 | 🩵 | UI, Accesibilidad |
-| Security | `security` | claude-opus-4-6 | 🛡️ | Auditoría, OWASP |
-| Performance | `performance` | claude-sonnet-4-5 | 🟠 | Lighthouse, Cache |
-| Testing | `testing` | claude-sonnet-4-5 | 🩷 | E2E, Unit, Synthetic |
-| Deploy | `deploy` | claude-sonnet-4-5 | 🟤 | Dokploy, Docker |
-| Git | `git` | claude-haiku-4-5 | ⚫ | Branching, PRs |
+| Agente        | ID              | Modelo            | Color | Especialidad          |
+| ------------- | --------------- | ----------------- | ----- | --------------------- |
+| Orquestador   | `orchestrator`  | claude-opus-4-6   | 🟣    | Coordinación          |
+| Planning      | `planning`      | claude-sonnet-4-5 | 🔵    | Roadmaps, Sprints     |
+| Documentation | `documentation` | claude-haiku-4-5  | 🟢    | Docs, API docs        |
+| Database      | `database`      | claude-sonnet-4-5 | 🟡    | Neon, RLS, Migrations |
+| API           | `api`           | claude-sonnet-4-5 | 🔴    | Endpoints, Contratos  |
+| UX/UI         | `uxui`          | claude-sonnet-4-5 | 🩵    | UI, Accesibilidad     |
+| Security      | `security`      | claude-opus-4-6   | 🛡️    | Auditoría, OWASP      |
+| Performance   | `performance`   | claude-sonnet-4-5 | 🟠    | Lighthouse, Cache     |
+| Testing       | `testing`       | claude-sonnet-4-5 | 🩷    | E2E, Unit, Synthetic  |
+| Deploy        | `deploy`        | claude-sonnet-4-5 | 🟤    | Dokploy, Docker       |
+| Git           | `git`           | claude-haiku-4-5  | ⚫    | Branching, PRs        |
 
 ## MCPs Utilizados
 
 ### Globales
+
 - **dokploy**: Gestión de deployments
 - **neon**: Gestión de base de datos Neon PostgreSQL
 - **n8n**: Workflows automatizados
@@ -69,12 +73,14 @@ docs/agents/
 - **4_5v_mcp**: Análisis de imágenes
 
 ### Locales
+
 - **filesystem**: Acceso al sistema de archivos
 - **ide**: Integración con IDE
 
 ## Archivos Relacionados
 
-- [Configuración del Proyecto](../../.claude/settings.json)
-- [Memoria del Proyecto](../../memory/MEMORY.md)
-- [Usuarios Sintéticos](../users/synthetic_users.json)
-- [Roadmap del Proyecto](../planning/project_roadmap.md)
+- [Configuración del Proyecto](../settings.json)
+- [Memoria de Agentes](../../memory/agents.md)
+- [Usuarios Sintéticos](../../docs/users/synthetic_users.json)
+- [Roadmap del Proyecto](../../docs/planning/project_roadmap.md)
+- [Definición del Sistema](../../docs/agents/system_definition.md)

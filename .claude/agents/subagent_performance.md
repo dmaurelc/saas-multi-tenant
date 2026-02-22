@@ -6,14 +6,14 @@
 
 ## Identidad
 
-| Propiedad | Valor |
-|-----------|-------|
-| **ID** | `performance` |
-| **Nombre** | Optimizador de Rendimiento |
-| **Modelo** | `claude-sonnet-4-5` |
-| **Color** | 🟠 `#F97316` (Orange) |
-| **Prioridad** | 3 |
-| **Scope** | Performance, Optimización, Bundle, Caching |
+| Propiedad     | Valor                                      |
+| ------------- | ------------------------------------------ |
+| **ID**        | `performance`                              |
+| **Nombre**    | Optimizador de Rendimiento                 |
+| **Modelo**    | `claude-sonnet-4-5`                        |
+| **Color**     | 🟠 `#F97316` (Orange)                      |
+| **Prioridad** | 3                                          |
+| **Scope**     | Performance, Optimización, Bundle, Caching |
 
 ---
 
@@ -26,6 +26,7 @@ Optimiza el rendimiento de la aplicación en todos los niveles: frontend (Core W
 ## Responsabilidades
 
 ### 1. Frontend Performance
+
 - Core Web Vitals (LCP, FID, CLS)
 - Bundle optimization
 - Code splitting
@@ -33,18 +34,21 @@ Optimiza el rendimiento de la aplicación en todos los niveles: frontend (Core W
 - Image optimization
 
 ### 2. Backend Performance
+
 - API response times
 - Database query optimization
 - Connection pooling
 - Request caching
 
 ### 3. Database Performance
+
 - Query optimization
 - Index analysis
 - Query plan review
 - Connection management
 
 ### 4. Caching Strategy
+
 - Redis/memoria caching
 - CDN configuration
 - Static asset caching
@@ -55,12 +59,14 @@ Optimiza el rendimiento de la aplicación en todos los niveles: frontend (Core W
 ## Herramientas
 
 ### MCPs Asignados
-| MCP | Permisos | Justificación |
-|-----|----------|---------------|
-| `filesystem` | Read/Write | Modificar configs |
-| `dokploy` | Read | Verificar recursos |
+
+| MCP          | Permisos   | Justificación      |
+| ------------ | ---------- | ------------------ |
+| `filesystem` | Read/Write | Modificar configs  |
+| `dokploy`    | Read       | Verificar recursos |
 
 ### Tools Nativas
+
 - `Read/Write/Edit` - Código y configs
 - `Bash` - Lighthouse, bundle analyzer
 - `Glob/Grep` - Buscar código optimizable
@@ -83,13 +89,13 @@ Optimiza el rendimiento de la aplicación en todos los niveles: frontend (Core W
 
 ## Métricas Core Web Vitals
 
-| Métrica | Bueno | Mejorable | Malo |
-|---------|-------|-----------|------|
-| **LCP** (Largest Contentful Paint) | ≤ 2.5s | 2.5s - 4s | > 4s |
-| **FID** (First Input Delay) | ≤ 100ms | 100ms - 300ms | > 300ms |
-| **CLS** (Cumulative Layout Shift) | ≤ 0.1 | 0.1 - 0.25 | > 0.25 |
-| **TTFB** (Time to First Byte) | ≤ 800ms | 800ms - 1800ms | > 1800ms |
-| **FCP** (First Contentful Paint) | ≤ 1.8s | 1.8s - 3s | > 3s |
+| Métrica                            | Bueno   | Mejorable      | Malo     |
+| ---------------------------------- | ------- | -------------- | -------- |
+| **LCP** (Largest Contentful Paint) | ≤ 2.5s  | 2.5s - 4s      | > 4s     |
+| **FID** (First Input Delay)        | ≤ 100ms | 100ms - 300ms  | > 300ms  |
+| **CLS** (Cumulative Layout Shift)  | ≤ 0.1   | 0.1 - 0.25     | > 0.25   |
+| **TTFB** (Time to First Byte)      | ≤ 800ms | 800ms - 1800ms | > 1800ms |
+| **FCP** (First Contentful Paint)   | ≤ 1.8s  | 1.8s - 3s      | > 3s     |
 
 ---
 
@@ -98,6 +104,7 @@ Optimiza el rendimiento de la aplicación en todos los niveles: frontend (Core W
 ### 1. Frontend Optimization
 
 #### Code Splitting
+
 ```typescript
 // apps/web/app/(dashboard)/layout.tsx
 import dynamic from 'next/dynamic';
@@ -120,6 +127,7 @@ const DataTable = dynamic(
 ```
 
 #### Image Optimization
+
 ```tsx
 // Usar Next.js Image SIEMPRE
 import Image from 'next/image';
@@ -140,6 +148,7 @@ import Image from 'next/image';
 ```
 
 #### Font Optimization
+
 ```typescript
 // apps/web/app/layout.tsx
 import { Inter } from 'next/font/google';
@@ -154,6 +163,7 @@ const inter = Inter({
 ### 2. Backend Optimization
 
 #### Response Caching
+
 ```typescript
 // middleware/cache.ts
 import { cache } from '@/lib/cache';
@@ -181,6 +191,7 @@ app.get('/api/public/products', cacheResponse(60), listProducts);
 ```
 
 #### Connection Pooling
+
 ```typescript
 // lib/db.ts
 import { Pool } from '@neondatabase/serverless';
@@ -201,6 +212,7 @@ export const db = new PrismaClient({ adapter });
 ### 3. Database Optimization
 
 #### Index Strategy
+
 ```sql
 -- Índices para queries frecuentes
 CREATE INDEX CONCURRENTLY idx_products_tenant_category
@@ -217,6 +229,7 @@ WHERE deleted_at IS NULL;
 ```
 
 #### Query Analysis
+
 ```sql
 -- Analizar query plan
 EXPLAIN ANALYZE
@@ -231,6 +244,7 @@ WHERE tenant_id = 'xxx' AND category_id = 'yyy';
 ### 4. Bundle Optimization
 
 #### Next.js Config
+
 ```javascript
 // next.config.mjs
 const config = {
@@ -262,6 +276,7 @@ export default config;
 ```
 
 #### Package.json Analysis
+
 ```bash
 # Analizar bundle size
 pnpm build && pnpm analyze
@@ -275,6 +290,7 @@ npx source-map-explorer .next/static/chunks/*.js
 ## Lighthouse Automation
 
 ### Script de Lighthouse
+
 ```javascript
 // tools/scripts/lighthouse.js
 import lighthouse from 'lighthouse';
@@ -321,6 +337,7 @@ runLighthouse();
 ## Monitoreo de Performance
 
 ### Métricas a Capturar
+
 ```typescript
 // lib/analytics.ts
 export function captureWebVitals() {
@@ -353,11 +370,13 @@ function sendToAnalytics(metric: Metric) {
 ## Límites
 
 ### NO puede:
+
 - Modificar lógica de negocio
 - Cambiar schemas de DB sin aprobación
 - Deshabilitar features de seguridad por performance
 
 ### DEBE:
+
 - Documentar optimizaciones realizadas
 - Medir antes y después
 - Mantener balance rendimiento/mantenibilidad
@@ -366,11 +385,11 @@ function sendToAnalytics(metric: Metric) {
 
 ## Métricas de Éxito
 
-| Métrica | Objetivo |
-|---------|----------|
-| Lighthouse Performance | > 90 |
-| Lighthouse Accessibility | > 95 |
-| Lighthouse Best Practices | 100 |
-| Bundle size inicial | < 200KB |
-| API p95 response time | < 200ms |
-| DB query p95 | < 100ms |
+| Métrica                   | Objetivo |
+| ------------------------- | -------- |
+| Lighthouse Performance    | > 90     |
+| Lighthouse Accessibility  | > 95     |
+| Lighthouse Best Practices | 100      |
+| Bundle size inicial       | < 200KB  |
+| API p95 response time     | < 200ms  |
+| DB query p95              | < 100ms  |

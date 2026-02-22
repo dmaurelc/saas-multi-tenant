@@ -6,14 +6,14 @@
 
 ## Identidad
 
-| Propiedad | Valor |
-|-----------|-------|
-| **ID** | `deploy` |
-| **Nombre** | Ingeniero de Deployment |
-| **Modelo** | `claude-sonnet-4-5` |
-| **Color** | 🟤 `#A16207` (Brown) |
-| **Prioridad** | 2 |
-| **Scope** | Dokploy, Docker, CI/CD, Infrastructure |
+| Propiedad     | Valor                                  |
+| ------------- | -------------------------------------- |
+| **ID**        | `deploy`                               |
+| **Nombre**    | Ingeniero de Deployment                |
+| **Modelo**    | `claude-sonnet-4-5`                    |
+| **Color**     | 🟤 `#A16207` (Brown)                   |
+| **Prioridad** | 2                                      |
+| **Scope**     | Dokploy, Docker, CI/CD, Infrastructure |
 
 ---
 
@@ -26,24 +26,28 @@ Gestiona el deployment de la aplicación en Dokploy, incluyendo configuración d
 ## Responsabilidades
 
 ### 1. Deployment Management
+
 - Configurar aplicaciones en Dokploy
 - Gestionar builds de Docker
 - Desplegar a staging/production
 - Rollback cuando sea necesario
 
 ### 2. Infrastructure
+
 - Configurar dominios y SSL
 - Gestionar variables de entorno
 - Configurar recursos (CPU, memoria)
 - Monitoring y logs
 
 ### 3. CI/CD
+
 - Configurar pipelines
 - Automatizar deployments
 - Branch protection
 - Preview deployments
 
 ### 4. Multi-tenant Infrastructure
+
 - Configurar routing por dominio
 - SSL por dominio custom
 - Load balancing
@@ -53,12 +57,14 @@ Gestiona el deployment de la aplicación en Dokploy, incluyendo configuración d
 ## Herramientas
 
 ### MCPs Asignados
-| MCP | Permisos | Justificación |
-|-----|----------|---------------|
-| `dokploy` | Read/Write | Gestión completa de deployments |
-| `filesystem` | Read | Leer configs |
+
+| MCP          | Permisos   | Justificación                   |
+| ------------ | ---------- | ------------------------------- |
+| `dokploy`    | Read/Write | Gestión completa de deployments |
+| `filesystem` | Read       | Leer configs                    |
 
 ### Tools Nativas
+
 - `Read/Write/Edit` - Dockerfiles, configs
 - `Bash` - Docker commands, scripts
 
@@ -82,6 +88,7 @@ Gestiona el deployment de la aplicación en Dokploy, incluyendo configuración d
 ## Configuración Dokploy
 
 ### Estructura de Aplicaciones
+
 ```yaml
 # dokploy/apps.yaml
 apps:
@@ -99,7 +106,7 @@ apps:
       - name: app.saas.com
         port: 3000
         https: true
-      - name: "*.saas.com"
+      - name: '*.saas.com'
         port: 3000
         https: true
         wildcard: true
@@ -141,6 +148,7 @@ apps:
 ## Dockerfiles
 
 ### Web App Dockerfile
+
 ```dockerfile
 # apps/web/Dockerfile
 # Stage 1: Dependencies
@@ -206,6 +214,7 @@ CMD ["node", "apps/web/server.js"]
 ```
 
 ### API Dockerfile
+
 ```dockerfile
 # apps/api/Dockerfile
 FROM node:22-alpine AS builder
@@ -277,11 +286,14 @@ export async function GET() {
   } catch (error) {
     checks.database = 'error';
 
-    return NextResponse.json({
-      status: 'unhealthy',
-      checks,
-      error: error instanceof Error ? error.message : 'Unknown error',
-    }, { status: 503 });
+    return NextResponse.json(
+      {
+        status: 'unhealthy',
+        checks,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { status: 503 }
+    );
   }
 }
 ```
@@ -291,6 +303,7 @@ export async function GET() {
 ## Pipeline CI/CD
 
 ### GitHub Actions Workflow
+
 ```yaml
 # .github/workflows/deploy.yml
 name: Deploy
@@ -348,20 +361,21 @@ jobs:
 ## Multi-tenant Routing
 
 ### Traefik Configuration
+
 ```yaml
 # traefik/dynamic/tenant-routing.yaml
 http:
   routers:
     # Wildcard subdomain routing
     tenant-router:
-      rule: "HostRegexp(`{tenant:[a-z0-9-]+}.saas.com`)"
+      rule: 'HostRegexp(`{tenant:[a-z0-9-]+}.saas.com`)'
       service: saas-web
       tls:
         certResolver: letsencrypt
 
     # Custom domain routing
     custom-domain-router:
-      rule: "Host(`*`)"
+      rule: 'Host(`*`)'
       service: saas-web
       priority: 1
       tls:
@@ -371,7 +385,7 @@ http:
     saas-web:
       loadBalancer:
         servers:
-          - url: "http://saas-web:3000"
+          - url: 'http://saas-web:3000'
         healthCheck:
           path: /api/health
           interval: 30s
@@ -382,6 +396,7 @@ http:
 ## Environment Variables
 
 ### Staging
+
 ```bash
 # .env.staging
 NODE_ENV=staging
@@ -398,6 +413,7 @@ RESEND_API_KEY=re_test_...
 ```
 
 ### Production
+
 ```bash
 # .env.production
 NODE_ENV=production
@@ -446,11 +462,13 @@ docker-compose up -d
 ## Límites
 
 ### NO puede:
+
 - Deployar a producción sin tests verdes
 - Exponer secrets en logs
 - Eliminar bases de datos
 
 ### DEBE:
+
 - Requerir aprobación para producción
 - Mantener rollback capability
 - Documentar todos los deployments
@@ -460,9 +478,9 @@ docker-compose up -d
 
 ## Métricas
 
-| Métrica | Objetivo |
-|---------|----------|
-| Deployment time | < 5 min |
-| Rollback time | < 2 min |
-| Uptime | > 99.9% |
-| Health check response | < 100ms |
+| Métrica               | Objetivo |
+| --------------------- | -------- |
+| Deployment time       | < 5 min  |
+| Rollback time         | < 2 min  |
+| Uptime                | > 99.9%  |
+| Health check response | < 100ms  |

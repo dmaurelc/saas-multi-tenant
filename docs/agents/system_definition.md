@@ -82,14 +82,15 @@ Este proyecto utiliza un sistema de agentes IA especializados para optimizar el 
 
 ### 1. Orquestador (Manager)
 
-| Propiedad | Valor |
-|-----------|-------|
-| **ID** | `orchestrator` |
-| **Modelo** | `claude-opus-4-6` |
-| **Color** | 🟣 `#9333EA` |
-| **Archivo** | [orchestrator.md](./orchestrator.md) |
+| Propiedad   | Valor                                                                  |
+| ----------- | ---------------------------------------------------------------------- |
+| **ID**      | `orchestrator`                                                         |
+| **Modelo**  | `claude-opus-4-6`                                                      |
+| **Color**   | 🟣 `#9333EA`                                                           |
+| **Archivo** | [.claude/agents/orchestrator.md](../../.claude/agents/orchestrator.md) |
 
 **Responsabilidades:**
+
 - Coordinación general de subagentes
 - Delegación inteligente de tareas
 - Gestión de estado del proyecto
@@ -101,14 +102,15 @@ Este proyecto utiliza un sistema de agentes IA especializados para optimizar el 
 
 ### 2. Planning (Arquitecto de Planes)
 
-| Propiedad | Valor |
-|-----------|-------|
-| **ID** | `planning` |
-| **Modelo** | `claude-sonnet-4-5` |
-| **Color** | 🔵 `#3B82F6` |
-| **Archivo** | [subagent_planning.md](./subagent_planning.md) |
+| Propiedad   | Valor                                                                            |
+| ----------- | -------------------------------------------------------------------------------- |
+| **ID**      | `planning`                                                                       |
+| **Modelo**  | `claude-sonnet-4-5`                                                              |
+| **Color**   | 🔵 `#3B82F6`                                                                     |
+| **Archivo** | [.claude/agents/subagent_planning.md](../../.claude/agents/subagent_planning.md) |
 
 **Responsabilidades:**
+
 - Gestión de roadmaps
 - Sprint planning
 - Estimaciones y story points
@@ -120,14 +122,15 @@ Este proyecto utiliza un sistema de agentes IA especializados para optimizar el 
 
 ### 3. Documentation (Cronista Técnico)
 
-| Propiedad | Valor |
-|-----------|-------|
-| **ID** | `documentation` |
-| **Modelo** | `claude-haiku-4-5` |
-| **Color** | 🟢 `#10B981` |
-| **Archivo** | [subagent_documentation.md](./subagent_documentation.md) |
+| Propiedad   | Valor                                                                                      |
+| ----------- | ------------------------------------------------------------------------------------------ |
+| **ID**      | `documentation`                                                                            |
+| **Modelo**  | `claude-haiku-4-5`                                                                         |
+| **Color**   | 🟢 `#10B981`                                                                               |
+| **Archivo** | [.claude/agents/subagent_documentation.md](../../.claude/agents/subagent_documentation.md) |
 
 **Responsabilidades:**
+
 - Documentación técnica
 - API documentation (OpenAPI)
 - Guías de usuario
@@ -139,14 +142,15 @@ Este proyecto utiliza un sistema de agentes IA especializados para optimizar el 
 
 ### 4. Database (Arquitecto de Datos)
 
-| Propiedad | Valor |
-|-----------|-------|
-| **ID** | `database` |
-| **Modelo** | `claude-sonnet-4-5` |
-| **Color** | 🟡 `#F59E0B` |
-| **Archivo** | [subagent_database.md](./subagent_database.md) |
+| Propiedad   | Valor                                                                            |
+| ----------- | -------------------------------------------------------------------------------- |
+| **ID**      | `database`                                                                       |
+| **Modelo**  | `claude-sonnet-4-5`                                                              |
+| **Color**   | 🟡 `#F59E0B`                                                                     |
+| **Archivo** | [.claude/agents/subagent_database.md](../../.claude/agents/subagent_database.md) |
 
 **Responsabilidades:**
+
 - Diseño de schemas (Prisma)
 - Row Level Security (RLS)
 - Migraciones
@@ -158,14 +162,15 @@ Este proyecto utiliza un sistema de agentes IA especializados para optimizar el 
 
 ### 5. API (Arquitecto de API)
 
-| Propiedad | Valor |
-|-----------|-------|
-| **ID** | `api` |
-| **Modelo** | `claude-sonnet-4-5` |
-| **Color** | 🔴 `#EF4444` |
-| **Archivo** | [subagent_api.md](./subagent_api.md) |
+| Propiedad   | Valor                                                                  |
+| ----------- | ---------------------------------------------------------------------- |
+| **ID**      | `api`                                                                  |
+| **Modelo**  | `claude-sonnet-4-5`                                                    |
+| **Color**   | 🔴 `#EF4444`                                                           |
+| **Archivo** | [.claude/agents/subagent_api.md](../../.claude/agents/subagent_api.md) |
 
 **Responsabilidades:**
+
 - Diseño de endpoints REST
 - Contratos de datos (Zod)
 - Validación de input
@@ -177,14 +182,15 @@ Este proyecto utiliza un sistema de agentes IA especializados para optimizar el 
 
 ### 6. UX/UI (Diseñador de Experiencias)
 
-| Propiedad | Valor |
-|-----------|-------|
-| **ID** | `uxui` |
-| **Modelo** | `claude-sonnet-4-5` |
-| **Color** | 🩵 `#06B6D4` |
-| **Archivo** | [subagent_uxui.md](./subagent_uxui.md) |
+| Propiedad   | Valor                                                                    |
+| ----------- | ------------------------------------------------------------------------ |
+| **ID**      | `uxui`                                                                   |
+| **Modelo**  | `claude-sonnet-4-5`                                                      |
+| **Color**   | 🩵 `#06B6D4`                                                             |
+| **Archivo** | [.claude/agents/subagent_uxui.md](../../.claude/agents/subagent_uxui.md) |
 
 **Responsabilidades:**
+
 - Componentes UI (shadcn/ui)
 - Accesibilidad (WCAG 2.1 AA)
 - Design system
@@ -196,14 +202,15 @@ Este proyecto utiliza un sistema de agentes IA especializados para optimizar el 
 
 ### 7. Security (Guardián de Seguridad)
 
-| Propiedad | Valor |
-|-----------|-------|
-| **ID** | `security` |
-| **Modelo** | `claude-opus-4-6` |
-| **Color** | 🛡️ `#6B21A8` |
-| **Archivo** | [subagent_security.md](./subagent_security.md) |
+| Propiedad   | Valor                                                                            |
+| ----------- | -------------------------------------------------------------------------------- |
+| **ID**      | `security`                                                                       |
+| **Modelo**  | `claude-opus-4-6`                                                                |
+| **Color**   | 🛡️ `#6B21A8`                                                                     |
+| **Archivo** | [.claude/agents/subagent_security.md](../../.claude/agents/subagent_security.md) |
 
 **Responsabilidades:**
+
 - Auditorías de seguridad
 - OWASP Top 10
 - Verificación de RLS
@@ -215,14 +222,15 @@ Este proyecto utiliza un sistema de agentes IA especializados para optimizar el 
 
 ### 8. Performance (Optimizador de Rendimiento)
 
-| Propiedad | Valor |
-|-----------|-------|
-| **ID** | `performance` |
-| **Modelo** | `claude-sonnet-4-5` |
-| **Color** | 🟠 `#F97316` |
-| **Archivo** | [subagent_performance.md](./subagent_performance.md) |
+| Propiedad   | Valor                                                                                  |
+| ----------- | -------------------------------------------------------------------------------------- |
+| **ID**      | `performance`                                                                          |
+| **Modelo**  | `claude-sonnet-4-5`                                                                    |
+| **Color**   | 🟠 `#F97316`                                                                           |
+| **Archivo** | [.claude/agents/subagent_performance.md](../../.claude/agents/subagent_performance.md) |
 
 **Responsabilidades:**
+
 - Core Web Vitals
 - Bundle optimization
 - Query optimization
@@ -234,14 +242,15 @@ Este proyecto utiliza un sistema de agentes IA especializados para optimizar el 
 
 ### 9. Testing (Ingeniero de Calidad)
 
-| Propiedad | Valor |
-|-----------|-------|
-| **ID** | `testing` |
-| **Modelo** | `claude-sonnet-4-5` |
-| **Color** | 🩷 `#EC4899` |
-| **Archivo** | [subagent_testing.md](./subagent_testing.md) |
+| Propiedad   | Valor                                                                          |
+| ----------- | ------------------------------------------------------------------------------ |
+| **ID**      | `testing`                                                                      |
+| **Modelo**  | `claude-sonnet-4-5`                                                            |
+| **Color**   | 🩷 `#EC4899`                                                                   |
+| **Archivo** | [.claude/agents/subagent_testing.md](../../.claude/agents/subagent_testing.md) |
 
 **Responsabilidades:**
+
 - Tests unitarios (Vitest)
 - Tests E2E (Playwright)
 - Usuarios sintéticos
@@ -253,14 +262,15 @@ Este proyecto utiliza un sistema de agentes IA especializados para optimizar el 
 
 ### 10. Deploy (Ingeniero de Deployment)
 
-| Propiedad | Valor |
-|-----------|-------|
-| **ID** | `deploy` |
-| **Modelo** | `claude-sonnet-4-5` |
-| **Color** | 🟤 `#A16207` |
-| **Archivo** | [subagent_deploy.md](./subagent_deploy.md) |
+| Propiedad   | Valor                                                                        |
+| ----------- | ---------------------------------------------------------------------------- |
+| **ID**      | `deploy`                                                                     |
+| **Modelo**  | `claude-sonnet-4-5`                                                          |
+| **Color**   | 🟤 `#A16207`                                                                 |
+| **Archivo** | [.claude/agents/subagent_deploy.md](../../.claude/agents/subagent_deploy.md) |
 
 **Responsabilidades:**
+
 - Deployment en Dokploy
 - Docker builds
 - CI/CD pipelines
@@ -272,14 +282,15 @@ Este proyecto utiliza un sistema de agentes IA especializados para optimizar el 
 
 ### 11. Git (Guardián del Repositorio)
 
-| Propiedad | Valor |
-|-----------|-------|
-| **ID** | `git` |
-| **Modelo** | `claude-haiku-4-5` |
-| **Color** | ⚫ `#171717` |
-| **Archivo** | [subagent_git.md](./subagent_git.md) |
+| Propiedad   | Valor                                                                  |
+| ----------- | ---------------------------------------------------------------------- |
+| **ID**      | `git`                                                                  |
+| **Modelo**  | `claude-haiku-4-5`                                                     |
+| **Color**   | ⚫ `#171717`                                                           |
+| **Archivo** | [.claude/agents/subagent_git.md](../../.claude/agents/subagent_git.md) |
 
 **Responsabilidades:**
+
 - Branching strategy (Git Flow)
 - Conventional commits
 - Pull requests
@@ -292,34 +303,36 @@ Este proyecto utiliza un sistema de agentes IA especializados para optimizar el 
 ## MCPs Disponibles
 
 ### Globales
-| MCP | Descripción | Uso Principal |
-|-----|-------------|---------------|
-| `dokploy` | Gestión de deployments | Deploy agent |
-| `neon` | Gestión de base de datos Neon | Database agent |
-| `n8n` | Workflows automatizados | Integraciones |
-| `web_reader` | Lectura web | Documentation agent |
-| `4_5v_mcp` | Análisis de imágenes | UX/UI agent |
+
+| MCP          | Descripción                   | Uso Principal       |
+| ------------ | ----------------------------- | ------------------- |
+| `dokploy`    | Gestión de deployments        | Deploy agent        |
+| `neon`       | Gestión de base de datos Neon | Database agent      |
+| `n8n`        | Workflows automatizados       | Integraciones       |
+| `web_reader` | Lectura web                   | Documentation agent |
+| `4_5v_mcp`   | Análisis de imágenes          | UX/UI agent         |
 
 ### Locales
-| MCP | Descripción | Uso Principal |
-|-----|-------------|---------------|
-| `filesystem` | Sistema de archivos | Todos los agentes |
-| `ide` | Integración IDE | Testing, Performance |
+
+| MCP          | Descripción         | Uso Principal        |
+| ------------ | ------------------- | -------------------- |
+| `filesystem` | Sistema de archivos | Todos los agentes    |
+| `ide`        | Integración IDE     | Testing, Performance |
 
 ---
 
 ## Matriz de Delegación
 
-| Tipo de Tarea | Agente Principal | Agentes de Soporte |
-|--------------|------------------|-------------------|
-| Nueva feature | Planning → API → UX/UI | Database, Testing |
-| Bug fix | API → Testing | Security (si aplica) |
-| DB schema | Database | API, Security |
-| UI component | UX/UI | Testing |
-| Security issue | Security | API, Database |
-| Deployment | Deploy | Testing, Security |
-| Performance | Performance | Database, API |
-| Documentation | Documentation | - |
+| Tipo de Tarea  | Agente Principal       | Agentes de Soporte   |
+| -------------- | ---------------------- | -------------------- |
+| Nueva feature  | Planning → API → UX/UI | Database, Testing    |
+| Bug fix        | API → Testing          | Security (si aplica) |
+| DB schema      | Database               | API, Security        |
+| UI component   | UX/UI                  | Testing              |
+| Security issue | Security               | API, Database        |
+| Deployment     | Deploy                 | Testing, Security    |
+| Performance    | Performance            | Database, API        |
+| Documentation  | Documentation          | -                    |
 
 ---
 
@@ -378,12 +391,12 @@ Usuario: "Implementar autenticación con magic links"
 
 ## Archivos de Configuración
 
-| Archivo | Propósito |
-|---------|-----------|
-| `.claude/settings.json` | Configuración del proyecto |
-| `memory/MEMORY.md` | Memoria persistente |
-| `docs/agents/orchestrator.md` | Definición del orquestador |
-| `docs/agents/subagent_*.md` | Definición de subagentes |
+| Archivo                           | Propósito                        |
+| --------------------------------- | -------------------------------- |
+| `.claude/settings.json`           | Configuración del proyecto       |
+| `memory/agents.md`                | Memoria de agentes del proyecto  |
+| `.claude/agents/orchestrator.md`  | Definición del orquestador       |
+| `.claude/agents/subagent_*.md`    | Definición de subagentes         |
 | `docs/users/synthetic_users.json` | Usuarios sintéticos para testing |
 
 ---
@@ -391,6 +404,7 @@ Usuario: "Implementar autenticación con magic links"
 ## Quick Reference
 
 ### Invocar Orquestador
+
 ```
 /orchestrate <tarea>
 /orch status
@@ -398,6 +412,7 @@ Usuario: "Implementar autenticación con magic links"
 ```
 
 ### Invocar Subagentes Directamente
+
 ```
 /plan <comando>
 /doc <comando>
@@ -412,6 +427,7 @@ Usuario: "Implementar autenticación con magic links"
 ```
 
 ### Comandos Comunes
+
 ```
 /commit              # Crear commit (skill)
 /test all            # Ejecutar todos los tests
