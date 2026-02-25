@@ -302,7 +302,7 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 
 ---
 
-## SPRINT 6: eCommerce - Productos
+## SPRINT 6: eCommerce - Productos ✅ COMPLETADO
 
 **Rama:** `sprint/6-ecommerce-products`
 **Versión:** `v1.1.0-alpha.1`
@@ -310,20 +310,53 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 
 ### Tareas
 
-- [ ] Modelo datos: `products`, `categories`, `variants`, `product_images`
-- [ ] CRUD categorías jerárquicas (parent_id)
-- [ ] CRUD productos con variantes
-- [ ] Búsqueda full-text con índices GIN
-- [ ] Admin: gestión productos/categorías
-- [ ] Public: catálogo y detalle de producto
-- [ ] RLS para eCommerce
+- [x] Modelo datos: `products`, `categories`, `variants`, `product_images`
+- [x] CRUD categorías jerárquicas (parent_id)
+- [x] CRUD productos con variantes
+- [x] Búsqueda full-text con índices GIN
+- [x] Admin: gestión productos/categorías
+- [x] Public: catálogo y detalle de producto
+- [x] RLS para eCommerce
+- [x] Tests unitarios para API
+- [x] Nuevos permisos: products.*, categories.manage
 
 ### Criterios de Aceptación
 
-- [ ] CRUD productos completo
-- [ ] Categorías jerárquicas funcionando
-- [ ] Catálogo público visible
-- [ ] Búsqueda retorna resultados relevantes
+- [x] CRUD productos completo
+- [x] Categorías jerárquicas funcionando
+- [x] Catálogo público visible
+- [x] Búsqueda retorna resultados relevantes
+
+### Archivos Creados
+
+**Backend:**
+- `apps/api/src/routes/products.ts` - API CRUD de productos con variantes e imágenes
+- `apps/api/src/routes/categories.ts` - API CRUD de categorías jerárquicas
+- `apps/api/src/routes/search.ts` - API de búsqueda full-text
+- `apps/api/src/__tests__/products.test.ts` - Tests unitarios
+
+**Frontend Admin:**
+- `apps/web/app/(dashboard)/products/page.tsx` - Gestión de productos
+- `apps/web/app/(dashboard)/categories/page.tsx` - Gestión de categorías (tree view)
+
+**Frontend Público:**
+- `apps/web/app/(store)/products/page.tsx` - Catálogo público con filtros
+- `apps/web/app/(store)/products/[slug]/page.tsx` - Detalle de producto
+
+**Base de Datos:**
+- `prisma/migrations/20250225_sprint6_add_ecommerce_products/migration.sql` - Migración con RLS y GIN index
+
+**Componentes:**
+- `apps/web/components/ui/textarea.tsx` - Componente Textarea
+
+### Notas
+
+- El slug se genera automáticamente desde el nombre (lowercase + guiones)
+- Las categorías soportan jerarquía con materialized path
+- Los productos pueden tener múltiples variantes (talle, color, etc.)
+- Las imágenes pueden estar asociadas a un producto o a una variante específica
+- La búsqueda full-text usa PostgreSQL GIN index para mejor rendimiento
+- RLS configurado para aislar productos y categorías por tenant
 
 ---
 
@@ -741,14 +774,14 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 
 ## Resumen de Versiones
 
-| Fase           | Sprints | Versión Final | Estado      |
-| -------------- | ------- | ------------- | ----------- |
-| Core SaaS      | 0-5     | v1.0.0        | ✅ COMPLETO |
-| eCommerce      | 6-9     | v1.1.0        | Pendiente   |
-| SaaS Servicios | 10-13   | v1.2.0        | Pendiente   |
-| Inmobiliario   | 14-17   | v1.3.0        | Pendiente   |
-| Restaurante    | 18-21   | v1.4.0        | Pendiente   |
-| Enterprise     | 22-24   | v2.0.0        | Pendiente   |
+| Fase           | Sprints | Versión Final | Estado              |
+| -------------- | ------- | ------------- | ------------------- |
+| Core SaaS      | 0-5     | v1.0.0        | ✅ COMPLETO         |
+| eCommerce      | 6-9     | v1.1.0        | Sprint 6 ✅ (1/4)    |
+| SaaS Servicios | 10-13   | v1.2.0        | Pendiente           |
+| Inmobiliario   | 14-17   | v1.3.0        | Pendiente           |
+| Restaurante    | 18-21   | v1.4.0        | Pendiente           |
+| Enterprise     | 22-24   | v2.0.0        | Pendiente           |
 
 ---
 
@@ -756,15 +789,27 @@ feature/sprint-X-* → sprint/X → develop (testing) → release/vX.X.X → mai
 
 ```
 Core SaaS:        ▓▓▓▓▓▓░░░░ 100% (Sprint 0-5 ✅ CORE COMPLETADO)
-eCommerce:        ░░░░░░░░░░ 0% (0/4 sprints) - NEXT
+eCommerce:        ▓░░░░░░░░░ 25% (1/4 sprints - Sprint 6 ✅)
 SaaS Servicios:   ░░░░░░░░░░ 0% (0/4 sprints)
 Inmobiliario:     ░░░░░░░░░░ 0% (0/4 sprints)
 Restaurante:      ░░░░░░░░░░ 0% (0/4 sprints)
 Enterprise:       ░░░░░░░░░░ 0% (0/3 sprints)
 ```
 
-**Total: 5/25 sprints completados (20%)**
-**Actual: Sprint 6 - eCommerce Productos (NEXT)**
+**Total: 6/25 sprints completados (24%)**
+**Actual: Sprint 7 - eCommerce Carrito e Inventario (NEXT)**
+
+> **Nota Sprint 6**: ✅ COMPLETADO - Backend, Frontend y Tests 100% completos.
+> **Commit:** `51c8357` - feat(ecommerce): implement Sprint 6 - Products module
+>
+> El módulo de productos está completamente implementado con:
+> - CRUD de productos con variantes (SKUs, precios, stock)
+> - Categorías jerárquicas con materialized path
+> - Búsqueda full-text con índices GIN
+> - Admin products + Admin categories
+> - Catálogo público + página de detalle
+> - Tests unitarios para validación de schema
+> - RLS configurado para tenant isolation
 
 > **Nota Sprint 5**: ✅ COMPLETADO - Backend y Frontend 100% completos.
 > **Tareas pendientes requieren configuración externa:**
