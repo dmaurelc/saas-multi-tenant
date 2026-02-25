@@ -16,28 +16,32 @@ datasource db {
 // ============================================
 
 model Tenant {
-  id        String   @id @default(uuid())
-  name      String
-  slug      String   @unique
-  logo      String?
-  primaryColor   String? @map("primary_color")
-  secondaryColor String? @map("secondary_color")
-  customDomain   String? @unique @map("custom_domain")
-  plan      Plan     @default(FREE)
-  isActive  Boolean  @default(true) @map("is_active")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id             String   @id @default(uuid())
+  name           String
+  slug           String   @unique
+  logo           String?
+  primaryColor   String?  @map("primary_color")
+  secondaryColor String?  @map("secondary_color")
+  customDomain   String?  @unique @map("custom_domain")
+  plan           Plan     @default(FREE)
+  isActive       Boolean  @default(true) @map("is_active")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
 
-  users        User[]
-  auditLogs    AuditLog[]
-  invitations  Invitation[]
-  subscriptions Subscription[]
-  notifications Notification[]
+  users                   User[]
+  auditLogs               AuditLog[]
+  invitations             Invitation[]
+  subscriptions           Subscription[]
+  notifications           Notification[]
   notificationPreferences NotificationPreference[]
-  events       Event[]
-  invoices     Invoice[]
-  paymentMethods PaymentMethod[]
-  payments     Payment[]
+  events                  Event[]
+  invoices                Invoice[]
+  paymentMethods          PaymentMethod[]
+  payments                Payment[]
+  products                Product[]
+  categories              Category[]
+  productVariants         ProductVariant[]
+  productImages           ProductImage[]
 
   @@index([slug])
   @@index([customDomain])
@@ -49,29 +53,29 @@ model Tenant {
 // ============================================
 
 model User {
-  id           String   @id @default(uuid())
-  tenantId     String   @map("tenant_id")
-  tenant       Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  email        String   @unique
-  passwordHash String?  @map("password_hash")
-  name         String?
-  avatar       String?
-  role         Role     @default(STAFF)
-  permissions  Json?    // Permisos adicionales específicos del usuario
-  isActive     Boolean  @default(true) @map("is_active")
+  id            String    @id @default(uuid())
+  tenantId      String    @map("tenant_id")
+  tenant        Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  email         String    @unique
+  passwordHash  String?   @map("password_hash")
+  name          String?
+  avatar        String?
+  role          Role      @default(STAFF)
+  permissions   Json? // Permisos adicionales específicos del usuario
+  isActive      Boolean   @default(true) @map("is_active")
   emailVerified DateTime? @map("email_verified")
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
 
-  auditLogs    AuditLog[]
-  sessions     Session[]
-  magicLinks   MagicLink[]
-  oauthAccounts OAuthAccount[]
-  invitationsSent Invitation[] @relation("Inviter")
-  invitationsAccepted Invitation[] @relation("Accepter")
-  notifications Notification[]
+  auditLogs              AuditLog[]
+  sessions               Session[]
+  magicLinks             MagicLink[]
+  oauthAccounts          OAuthAccount[]
+  invitationsSent        Invitation[]            @relation("Inviter")
+  invitationsAccepted    Invitation[]            @relation("Accepter")
+  notifications          Notification[]
   notificationPreference NotificationPreference?
-  events       Event[]
+  events                 Event[]
 
   @@index([tenantId])
   @@index([email])
@@ -83,12 +87,12 @@ model User {
 // ============================================
 
 model Session {
-  id           String   @id @default(uuid())
-  userId       String   @map("user_id")
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  token        String   @unique
-  expiresAt    DateTime @map("expires_at")
-  createdAt    DateTime @default(now()) @map("created_at")
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
 
   @@index([token])
   @@index([userId])
@@ -100,15 +104,15 @@ model Session {
 // ============================================
 
 model MagicLink {
-  id        String   @id @default(uuid())
+  id        String    @id @default(uuid())
   email     String
-  token     String   @unique
-  tenantId  String?  @map("tenant_id") // Optional: for existing tenant login
-  expiresAt DateTime @map("expires_at")
+  token     String    @unique
+  tenantId  String?   @map("tenant_id") // Optional: for existing tenant login
+  expiresAt DateTime  @map("expires_at")
   usedAt    DateTime? @map("used_at")
-  createdAt DateTime @default(now()) @map("created_at")
-  userId    String?  @map("user_id")
-  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now()) @map("created_at")
+  userId    String?   @map("user_id")
+  user      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([token])
   @@index([email])
@@ -121,19 +125,19 @@ model MagicLink {
 // ============================================
 
 model OAuthAccount {
-  id            String   @id @default(uuid())
-  userId        String   @map("user_id")
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  provider      OAuthProvider
-  providerAccountId String @map("provider_account_id")
-  accessToken   String?  @map("access_token")
-  refreshToken  String?  @map("refresh_token")
-  expiresAt     DateTime? @map("expires_at")
-  tokenType     String?  @map("token_type")
-  scope         String?
-  idToken       String?  @map("id_token")
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
+  id                String        @id @default(uuid())
+  userId            String        @map("user_id")
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider          OAuthProvider
+  providerAccountId String        @map("provider_account_id")
+  accessToken       String?       @map("access_token")
+  refreshToken      String?       @map("refresh_token")
+  expiresAt         DateTime?     @map("expires_at")
+  tokenType         String?       @map("token_type")
+  scope             String?
+  idToken           String?       @map("id_token")
+  createdAt         DateTime      @default(now()) @map("created_at")
+  updatedAt         DateTime      @updatedAt @map("updated_at")
 
   @@unique([provider, providerAccountId])
   @@index([userId])
@@ -146,19 +150,19 @@ model OAuthAccount {
 // ============================================
 
 model Invitation {
-  id           String        @id @default(uuid())
-  tenantId     String        @map("tenant_id")
-  tenant       Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  email        String
-  role         Role          @default(STAFF)
-  token        String        @unique
-  expiresAt    DateTime      @map("expires_at")
-  acceptedAt   DateTime?     @map("accepted_at")
-  invitedBy    String        @map("invited_by")
-  invitedByUser User         @relation("Inviter", fields: [invitedBy], references: [id], onDelete: Cascade)
-  acceptedBy   String?       @map("accepted_by")
-  acceptedUser User?         @relation("Accepter", fields: [acceptedBy], references: [id], onDelete: SetNull)
-  createdAt    DateTime      @default(now()) @map("created_at")
+  id            String    @id @default(uuid())
+  tenantId      String    @map("tenant_id")
+  tenant        Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  email         String
+  role          Role      @default(STAFF)
+  token         String    @unique
+  expiresAt     DateTime  @map("expires_at")
+  acceptedAt    DateTime? @map("accepted_at")
+  invitedBy     String    @map("invited_by")
+  invitedByUser User      @relation("Inviter", fields: [invitedBy], references: [id], onDelete: Cascade)
+  acceptedBy    String?   @map("accepted_by")
+  acceptedUser  User?     @relation("Accepter", fields: [acceptedBy], references: [id], onDelete: SetNull)
+  createdAt     DateTime  @default(now()) @map("created_at")
 
   @@index([tenantId])
   @@index([email])
@@ -194,28 +198,28 @@ model AuditLog {
 // ============================================
 
 model Subscription {
-  id                       String   @id @default(uuid())
-  tenantId                 String   @unique @map("tenant_id")
-  tenant                   Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  id       String @id @default(uuid())
+  tenantId String @unique @map("tenant_id")
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
-  provider                 Provider @default(STRIPE)
-  providerSubscriptionId   String?  @map("provider_subscription_id")
-  providerCustomerId       String?  @map("provider_customer_id")
+  provider               Provider @default(STRIPE)
+  providerSubscriptionId String?  @map("provider_subscription_id")
+  providerCustomerId     String?  @map("provider_customer_id")
 
-  planId                   Plan     @default(FREE) @map("plan_id")
-  status                   SubscriptionStatus @default(ACTIVE)
-  currentPeriodStart       DateTime? @map("current_period_start")
-  currentPeriodEnd         DateTime? @map("current_period_end")
-  cancelAtPeriodEnd        Boolean  @default(false) @map("cancel_at_period_end")
-  canceledAt               DateTime? @map("canceled_at")
+  planId             Plan               @default(FREE) @map("plan_id")
+  status             SubscriptionStatus @default(ACTIVE)
+  currentPeriodStart DateTime?          @map("current_period_start")
+  currentPeriodEnd   DateTime?          @map("current_period_end")
+  cancelAtPeriodEnd  Boolean            @default(false) @map("cancel_at_period_end")
+  canceledAt         DateTime?          @map("canceled_at")
 
-  metadata                 Json?
+  metadata Json?
 
-  invoices                 Invoice[]
-  paymentMethods           PaymentMethod[]
+  invoices       Invoice[]
+  paymentMethods PaymentMethod[]
 
-  createdAt                DateTime @default(now()) @map("created_at")
-  updatedAt                DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@index([providerSubscriptionId])
   @@map("subscriptions")
@@ -226,33 +230,33 @@ model Subscription {
 // ============================================
 
 model Invoice {
-  id                  String   @id @default(uuid())
-  tenantId            String   @map("tenant_id")
-  tenant              Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  id       String @id @default(uuid())
+  tenantId String @map("tenant_id")
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
-  subscriptionId      String?  @map("subscription_id")
-  subscription        Subscription? @relation(fields: [subscriptionId], references: [id], onDelete: SetNull)
+  subscriptionId String?       @map("subscription_id")
+  subscription   Subscription? @relation(fields: [subscriptionId], references: [id], onDelete: SetNull)
 
-  provider            Provider @default(STRIPE)
-  providerInvoiceId   String?  @map("provider_invoice_id")
+  provider          Provider @default(STRIPE)
+  providerInvoiceId String?  @map("provider_invoice_id")
 
-  status              InvoiceStatus @default(DRAFT)
-  currency            String   @default("CLP")
-  subtotal            Int
-  tax                 Int      @default(0)
-  total               Int
+  status   InvoiceStatus @default(DRAFT)
+  currency String        @default("CLP")
+  subtotal Int
+  tax      Int           @default(0)
+  total    Int
 
-  dueDate             DateTime? @map("due_date")
-  paidAt              DateTime? @map("paid_at")
+  dueDate DateTime? @map("due_date")
+  paidAt  DateTime? @map("paid_at")
 
-  invoiceUrl          String?  @map("invoice_url")
-  lineItems           Json?
-  metadata            Json?
+  invoiceUrl String? @map("invoice_url")
+  lineItems  Json?
+  metadata   Json?
 
-  createdAt           DateTime @default(now()) @map("created_at")
-  updatedAt           DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-  payments            Payment[]
+  payments Payment[]
 
   @@index([subscriptionId])
   @@index([providerInvoiceId])
@@ -264,27 +268,27 @@ model Invoice {
 // ============================================
 
 model PaymentMethod {
-  id                String   @id @default(uuid())
-  tenantId          String   @map("tenant_id")
-  tenant            Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  id       String @id @default(uuid())
+  tenantId String @map("tenant_id")
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
-  subscriptionId    String?  @map("subscription_id")
-  subscription      Subscription? @relation(fields: [subscriptionId], references: [id], onDelete: SetNull)
+  subscriptionId String?       @map("subscription_id")
+  subscription   Subscription? @relation(fields: [subscriptionId], references: [id], onDelete: SetNull)
 
-  provider          Provider @default(STRIPE)
-  providerMethodId  String   @map("provider_method_id")
+  provider         Provider @default(STRIPE)
+  providerMethodId String   @map("provider_method_id")
 
-  type              PaymentType
-  isDefault         Boolean  @default(false) @map("is_default")
+  type      PaymentType
+  isDefault Boolean     @default(false) @map("is_default")
 
-  last4             String?
-  brand             String?
-  expiresAt         DateTime? @map("expires_at")
+  last4     String?
+  brand     String?
+  expiresAt DateTime? @map("expires_at")
 
-  metadata          Json?
+  metadata Json?
 
-  createdAt         DateTime @default(now()) @map("created_at")
-  updatedAt         DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@index([subscriptionId])
   @@map("payment_methods")
@@ -295,25 +299,25 @@ model PaymentMethod {
 // ============================================
 
 model Payment {
-  id                  String   @id @default(uuid())
-  tenantId            String   @map("tenant_id")
-  tenant              Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  id       String @id @default(uuid())
+  tenantId String @map("tenant_id")
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
-  invoiceId           String?  @map("invoice_id")
-  invoice             Invoice? @relation(fields: [invoiceId], references: [id], onDelete: SetNull)
+  invoiceId String?  @map("invoice_id")
+  invoice   Invoice? @relation(fields: [invoiceId], references: [id], onDelete: SetNull)
 
-  provider            Provider @default(STRIPE)
-  providerPaymentId   String?  @map("provider_payment_id")
+  provider          Provider @default(STRIPE)
+  providerPaymentId String?  @map("provider_payment_id")
 
-  status              PaymentStatus @default(PENDING)
-  amount              Int
-  currency            String   @default("CLP")
+  status   PaymentStatus @default(PENDING)
+  amount   Int
+  currency String        @default("CLP")
 
-  processedAt         DateTime? @map("processed_at")
-  metadata            Json?
+  processedAt DateTime? @map("processed_at")
+  metadata    Json?
 
-  createdAt           DateTime @default(now()) @map("created_at")
-  updatedAt           DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@index([invoiceId])
   @@index([providerPaymentId])
@@ -325,24 +329,24 @@ model Payment {
 // ============================================
 
 model Notification {
-  id              String   @id @default(uuid())
-  tenantId        String   @map("tenant_id")
-  tenant          Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  id       String @id @default(uuid())
+  tenantId String @map("tenant_id")
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
-  userId          String   @map("user_id")
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  type            NotificationType
-  title           String
-  message         String   @db.Text
-  data            Json?
+  type    NotificationType
+  title   String
+  message String           @db.Text
+  data    Json?
 
-  readAt          DateTime? @map("read_at")
-  actionUrl       String?  @map("action_url")
-  actionLabel     String?  @map("action_label")
+  readAt      DateTime? @map("read_at")
+  actionUrl   String?   @map("action_url")
+  actionLabel String?   @map("action_label")
 
-  createdAt       DateTime @default(now()) @map("created_at")
-  expiresAt       DateTime? @map("expires_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  expiresAt DateTime? @map("expires_at")
 
   @@index([tenantId])
   @@index([userId])
@@ -355,19 +359,19 @@ model Notification {
 // ============================================
 
 model NotificationPreference {
-  id              String   @id @default(uuid())
-  tenantId        String   @map("tenant_id")
-  tenant          Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  id       String @id @default(uuid())
+  tenantId String @map("tenant_id")
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
-  userId          String   @unique @map("user_id")
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  emailEnabled    Boolean  @default(true) @map("email_enabled")
-  inAppEnabled    Boolean  @default(true) @map("in_app_enabled")
-  preferences     Json?
+  emailEnabled Boolean @default(true) @map("email_enabled")
+  inAppEnabled Boolean @default(true) @map("in_app_enabled")
+  preferences  Json?
 
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@index([tenantId])
   @@map("notification_preferences")
@@ -378,29 +382,145 @@ model NotificationPreference {
 // ============================================
 
 model Event {
-  id            String   @id @default(uuid())
-  tenantId      String   @map("tenant_id")
-  tenant        Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  id       String @id @default(uuid())
+  tenantId String @map("tenant_id")
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
-  userId        String?  @map("user_id")
-  user          User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId String? @map("user_id")
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
 
-  eventType     String   @map("event_type")
-  eventName     String   @map("event_name")
-  properties    Json?
+  eventType  String @map("event_type")
+  eventName  String @map("event_name")
+  properties Json?
 
-  sessionId     String?  @map("session_id")
-  ipAddress     String?  @map("ip_address")
-  userAgent     String?  @map("user_agent")
-  referrer      String?
+  sessionId String? @map("session_id")
+  ipAddress String? @map("ip_address")
+  userAgent String? @map("user_agent")
+  referrer  String?
 
-  createdAt     DateTime @default(now()) @map("created_at")
+  createdAt DateTime @default(now()) @map("created_at")
 
   @@index([tenantId])
   @@index([userId])
   @@index([eventType])
   @@index([createdAt])
   @@map("events")
+}
+
+// ============================================
+// ECOMMERCE - Product Catalog (Sprint 6)
+// ============================================
+
+model Category {
+  id       String @id @default(uuid())
+  tenantId String @map("tenant_id")
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  parentId String?    @map("parent_id")
+  parent   Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id], onDelete: SetNull)
+  children Category[] @relation("CategoryHierarchy")
+
+  name        String
+  slug        String
+  description String? @db.Text
+  imageUrl    String? @map("image_url")
+
+  // Tree navigation helpers
+  level Int     @default(0)
+  path  String? // For materialized path: "/1/4/7"
+
+  position Int     @default(0)
+  isActive Boolean @default(true) @map("is_active")
+
+  products Product[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([tenantId])
+  @@index([parentId])
+  @@index([slug])
+  @@map("categories")
+}
+
+model Product {
+  id       String @id @default(uuid())
+  tenantId String @map("tenant_id")
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  categoryId String   @map("category_id")
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  name        String
+  slug        String // For SEO-friendly URLs
+  description String? @db.Text
+
+  // SEO
+  metaTitle String? @map("meta_title")
+  metaDesc  String? @map("meta_desc")
+
+  isActive Boolean @default(true) @map("is_active")
+
+  variants ProductVariant[]
+  images   ProductImage[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([tenantId])
+  @@index([categoryId])
+  @@index([slug])
+  @@map("products")
+}
+
+model ProductVariant {
+  id        String @id @default(uuid())
+  tenantId  String @map("tenant_id")
+  productId String @map("product_id")
+
+  tenant  Tenant  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  sku  String? @unique
+  name String // "Size M", "Color Red", "Size M - Blue", etc.
+
+  price        Decimal  @db.Decimal(10, 2)
+  comparePrice Decimal? @map("compare_price")
+
+  stock    Int     @default(0)
+  isActive Boolean @default(true) @map("is_active")
+
+  images ProductImage[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([tenantId])
+  @@index([productId])
+  @@index([sku])
+  @@map("product_variants")
+}
+
+model ProductImage {
+  id        String  @id @default(uuid())
+  tenantId  String  @map("tenant_id")
+  productId String  @map("product_id")
+  variantId String? @map("variant_id")
+
+  tenant  Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  product Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+  variant ProductVariant? @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  url      String // Cloudinary URL or similar
+  alt      String?
+  position Int     @default(0)
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([tenantId])
+  @@index([productId])
+  @@index([variantId])
+  @@map("product_images")
 }
 
 // ============================================
@@ -415,10 +535,10 @@ enum Plan {
 }
 
 enum Role {
-  OWNER     // Full access, can manage subscription
-  ADMIN     // Full access except subscription
-  STAFF     // Limited access based on permissions
-  CUSTOMER  // End customer (for certain verticals)
+  OWNER // Full access, can manage subscription
+  ADMIN // Full access except subscription
+  STAFF // Limited access based on permissions
+  CUSTOMER // End customer (for certain verticals)
 }
 
 enum OAuthProvider {
@@ -463,6 +583,12 @@ enum PaymentStatus {
   FAILED
   REFUNDED
   PARTIALLY_REFUNDED
+}
+
+enum ProductStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
 }
 
 enum NotificationType {

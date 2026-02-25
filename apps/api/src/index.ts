@@ -11,6 +11,9 @@ import paymentsRoutes from './routes/payments';
 import subscriptionsRoutes from './routes/subscriptions';
 import notificationsRoutes from './routes/notifications';
 import metricsRoutes from './routes/metrics';
+import productsRoutes from './routes/products';
+import categoriesRoutes from './routes/categories';
+import searchRoutes from './routes/search';
 import { apiRateLimit } from './middleware/rateLimit';
 import { tenantResolver } from './middleware/tenant';
 
@@ -107,6 +110,15 @@ app.route('/api/v1/notifications', notificationsRoutes);
 
 // Metrics routes
 app.route('/api/v1/metrics', metricsRoutes);
+
+// Products routes
+app.route('/api/v1/products', productsRoutes);
+
+// Categories routes
+app.route('/api/v1/categories', categoriesRoutes);
+
+// Search routes
+app.route('/api/v1/search', searchRoutes);
 
 // ============================================
 // Error Handling

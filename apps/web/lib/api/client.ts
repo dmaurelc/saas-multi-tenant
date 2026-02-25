@@ -322,4 +322,39 @@ export const apiClient = {
 
     return response.json() as Promise<T>;
   },
+
+  delete: async <T>(endpoint: string) => {
+    const token = localStorage.getItem('accessToken');
+    const response = await fetch(`${API_URL}${endpoint}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('API request failed');
+    }
+
+    return response.json() as Promise<T>;
+  },
+
+  put: async <T>(endpoint: string, data?: unknown) => {
+    const token = localStorage.getItem('accessToken');
+    const response = await fetch(`${API_URL}${endpoint}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error('API request failed');
+    }
+
+    return response.json() as Promise<T>;
+  },
 };

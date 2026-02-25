@@ -45,4 +45,10 @@ export const AuditActions = {
   TENANT_UPDATED: 'tenant.updated',
   INVITATION_CREATED: 'invitation.created',
   INVITATION_ACCEPTED: 'invitation.accepted',
+  PRODUCT_CREATED: 'product.created',
+  PRODUCT_UPDATED: 'product.updated',
+  PRODUCT_DELETED: 'product.deleted',
+  CATEGORY_CREATED: 'category.created',
+  CATEGORY_UPDATED: 'category.updated',
+  CATEGORY_DELETED: 'category.deleted',
 } as const;

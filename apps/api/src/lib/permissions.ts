@@ -42,6 +42,13 @@ export const Permissions = {
 
   // Audit Logs
   'audit.read': 'View audit logs',
+
+  // Products & eCommerce
+  'products.read': 'View products',
+  'products.create': 'Create products',
+  'products.update': 'Update products',
+  'products.delete': 'Delete products',
+  'categories.manage': 'Manage categories',
 } as const;
 
 // ============================================
